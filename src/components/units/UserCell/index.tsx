@@ -1,0 +1,34 @@
+import { observer } from "mobx-react-lite";
+import { gameEngine } from "../../../services/GameEngine.store";
+import { Cell } from "../../atoms/Cell";
+import { CellStatus } from "../../../config";
+import { useCallback } from "react";
+
+type Props = {
+  xPos: number;
+  yPos: number;
+  cell: number;
+}
+
+export const UserCell = observer(({ xPos, yPos, cell }: Props) => {
+  const { userBoard: { setup: { changePosition, availablePaths, position}, status }, } = gameEngine;
+
+  const isActiveCell = position && position.x === xPos && position.y === yPos;
+  const isAvailableCell = availablePaths?.some(path => path.some(p => p.x === xPos && p.y === yPos));
+
+  const classes = [
+    ...(isActiveCell ? ['active'] : []),
+    ...(isAvailableCell ? ['available'] : []),
+    ...(cell in CellStatus ? [CellStatus[cell as CellStatus]] : []),
+  ]
+
+  const onClick = useCallback(() => {
+    if(status === 'setup') {
+      changePosition(xPos, yPos);
+    }
+  }, [status, changePosition, xPos, yPos])
+
+  return  (
+    <Cell className={classes.join(' ')} onClick={onClick}/>
+  )
+})

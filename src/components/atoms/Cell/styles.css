@@ -1,0 +1,30 @@
+.cell {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
+.available {
+  background-color: green;
+}
+
+.active {
+  background-color: blue;
+}
+
+.miss {
+  background-color: #aaa;
+}
+
+.shipHit {
+  background-color: red;
+}
+
+.hit {
+  background-color: orange;
+}
+
+.ship {
+  background-color: lightblue;
+}

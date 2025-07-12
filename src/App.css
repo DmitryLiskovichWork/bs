@@ -1,0 +1,15 @@
+@import './components/units/GameStatus/styles.css';
+@import './components/units/UserSetup/styles.css';
+@import './components/atoms/Cell/styles.css';
+@import './components/molecules/Grid/styles.css';
+
+.app-container {
+  padding: 40px;
+}
+
+.boards-container {
+  width: 100%;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
