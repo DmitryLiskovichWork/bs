@@ -1,3 +1,5 @@
+import { BoardController } from "../services/Board.controller";
+
 export type Direction = 'up' | 'right' | 'down' | 'left';
 
 export type Position = {
@@ -21,4 +23,8 @@ export interface ICellProps {
   xPos: number;
   yPos: number;
   cell: number;
+}
+
+export interface IGameController {
+  activeBoard: BoardController;
 }

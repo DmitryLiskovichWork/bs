@@ -2,7 +2,7 @@ import { action, computed, makeObservable, observable } from "mobx";
 import { BoardController } from "./Board.controller";
 import { Position } from "../types";
 
-export class FightService {
+export class SinglePlayerService {
   @observable activeBoardId = 0
   boards: [BoardController, BoardController];
   

@@ -1,24 +1,31 @@
 import { config } from "../config";
 import { BoardController } from "./Board.controller";
 import { UserBoardController } from "./UserBoard.controller";
-import { FightService } from "./Fight.service";
+import { SinglePlayerService } from "./SinglePlayer.service";
 import { computed } from "mobx";
 import { BotBoardController } from "./BotBoard.controller";
-import { BoardConfig } from "../types";
+import { BoardConfig, IGameController } from "../types";
+
+type GameSettings = {
+  GameController: new (...boards: BoardController[]) => IGameController
+  EnemyBoard: new (config: BoardConfig) => BoardController
+}
 
 
 export class GameEngine {
   userBoard: UserBoardController;
   enemyBoard: BoardController;
-  fight: FightService;
+  gameController: IGameController;
 
-  constructor(private config: BoardConfig, EnemyBoard: new (config: BoardConfig) => BoardController) {
+  constructor(private config: BoardConfig, settings: GameSettings) {
+    const { GameController, EnemyBoard } = settings;
+
     this.userBoard = new UserBoardController(this.config)
     this.enemyBoard = new EnemyBoard(this.config)
 
     this.enemyBoard.autoFill();
     
-    this.fight = new FightService(this.userBoard, this.enemyBoard)
+    this.gameController = new GameController(this.userBoard, this.enemyBoard)
   }
 
   resetGame = () => {
@@ -58,4 +65,7 @@ export class GameEngine {
   }
 }
 
-export const gameEngine = new GameEngine(config, BotBoardController);
+export const gameEngine = new GameEngine(config, {
+  GameController: SinglePlayerService,
+  EnemyBoard: BotBoardController,
+});

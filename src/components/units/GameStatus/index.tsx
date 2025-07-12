@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { gameEngine } from "../../../services/GameEngine.store";
 
 export const GameStatus = observer(() => {
-  const { userBoard: { status }, fight: { activeBoard }, resetGame } = gameEngine;
+  const { userBoard: { status }, gameController: { activeBoard }, resetGame } = gameEngine;
 
   return (
     <div>
