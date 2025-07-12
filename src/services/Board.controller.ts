@@ -1,18 +1,21 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { buildBoard } from "../utils/buildBoard";
-import { BoatSizes, Direction, Position } from "../types";
+import { BoardConfig, BoatSizes, Direction, Position } from "../types";
 import { getAvailablePositionsWithDirections, getBoatFullPath, getRandomInt } from "../utils/boardFilling";
 import { boatsConfig } from "../config";
 
 const hasBoats = (board: number[][]) => 
   board.some(row => row.some(cell => cell === 1))
 
-export class BoardController {
+export abstract class BoardController {
+  emitter = new EventTarget();
+  disabled = false;
+
   @observable status: 'setup' | 'inprogress' | 'gameover' = 'setup';
   @observable.ref board: number[][] = [];
   @observable.ref boats: Position[][] = [];
 
-  constructor(private config: { width: number, height: number }) {
+  constructor(private config: BoardConfig) {
     makeObservable(this)
 
     this.init();
@@ -70,4 +73,22 @@ export class BoardController {
 
     this.status = 'inprogress';
   }
+
+  subscribe = (event: 'fire', callback: (position: Position) => void) => {   
+    const listener = ((event: CustomEvent) => {
+      callback(event.detail);
+    }) as EventListener;
+    
+    this.emitter.addEventListener(event, listener);
+
+    return () => this.emitter.removeEventListener(event, listener);
+  }
+
+  emit = (event: 'fire', position: Position) => {
+    this.emitter.dispatchEvent(new CustomEvent(event, { detail: position }));
+  }
+
+  fired: ({ isHit, isDestroyed, position }: { isHit: boolean, isDestroyed: boolean, position: Position }) => void = () => {};
+
+  myTurn: () => void = () => {};
 }

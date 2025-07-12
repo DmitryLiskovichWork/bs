@@ -1,5 +1,5 @@
 import { Position } from "../types";
-import { isFieldAvailable, isInBoardScope } from "./validation";
+import { isFieldAvailable, inBoardScope } from "./validation";
 
 export const getAvailablePositions = (board: number[][]): Position[] => 
   board.reduce<Position[]>((acc, row, y) => {
@@ -19,7 +19,7 @@ export const getAroundPositions = (board: number[][], position: Position): Posit
     for(let j = -1; j <= 1; j++) {
       const newPosition = { x: position.x + i, y: position.y + j };
 
-      if(!isInBoardScope(board, newPosition)) continue
+      if(!inBoardScope(board, newPosition)) continue
       
       positions.push(newPosition);
     }

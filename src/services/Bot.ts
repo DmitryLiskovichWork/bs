@@ -1,7 +1,8 @@
+import { defaultDirections } from "../config/bot";
 import { Position } from "../types";
 import { getRandomInt } from "../utils/boardFilling";
 import { getAroundPositions } from "../utils/positions";
-import { isInBoardScope } from "../utils/validation";
+import { inBoardScope } from "../utils/validation";
 
 export class Bot {
   private hitsSeries: Position[] = [];
@@ -75,22 +76,20 @@ export class Bot {
 
   // predict next hit by direction
   private predictNextHit = (position: Position) => {
+    // try to predict direction by two last hits
     const predictedDirections = this.hitsSeries.length > 1 ? 
       this.getDirection(this.hitsSeries[this.hitsSeries.length - 2], this.hitsSeries[this.hitsSeries.length - 1]) : null;
 
-    // possible directions to hit
-    const directions = [
-      { x: 1, y: 0, way: 'right' },
-      { x: -1, y: 0, way: 'left' },
-      { x: 0, y: 1, way: 'down' },
-      { x: 0, y: -1, way: 'up' },
-    ].filter(({ way }) => !predictedDirections || predictedDirections.includes(way));
+    // try to keep only predicted directions
+    const directions = predictedDirections ? 
+      defaultDirections.filter(({ way }) => predictedDirections.includes(way)) :
+      defaultDirections;
 
     const possiblePositions = directions.map(({ x, y }) => ({
       x: position.x + x,
       y: position.y + y,
     }))
-    .filter(({ x, y}) => isInBoardScope(this.board, { x, y }))
+    .filter(({ x, y}) => inBoardScope(this.board, { x, y }))
     .filter(({ x, y }) => this.availablePositions.some(p => p.x === x && p.y === y))
 
     const randomPosition = possiblePositions[getRandomInt(0, possiblePositions.length - 1)];

@@ -1,0 +1,46 @@
+import { makeObservable } from "mobx";
+import { BoardController } from "./Board.controller";
+import { Bot } from "./Bot";
+import { BoardConfig, Position } from "../types";
+
+const BOT_ANSWER_DELAY = 400;
+
+export class BotBoardController extends BoardController {
+  bot: Bot;
+
+  constructor(config: BoardConfig) {
+    super(config);
+
+    this.bot = new Bot(this.board);
+
+    makeObservable(this)
+  }
+
+  getPosition = () => {
+    return this.bot.getNextPosition();
+  }
+
+  fire = (position: Position) => {
+    if(this.disabled) return;
+    
+    setTimeout(() => this.emit('fire', position), BOT_ANSWER_DELAY)
+  }
+
+  fired = ({ isHit, isDestroyed, position }: { isHit: boolean, isDestroyed: boolean, position: Position }) => {
+    if(isHit && !isDestroyed) {
+      this.bot.updateHits(position);
+    }
+
+    if(isDestroyed) {
+      this.bot.destroyed();
+    }
+
+    if(isHit || isDestroyed) {
+      this.fire(this.getPosition());
+    }
+  }
+
+  myTurn = () => {
+    this.fire(this.getPosition());
+  }
+}

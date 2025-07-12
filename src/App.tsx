@@ -8,8 +8,8 @@ import { UserCell } from './components/units/UserCell';
 import { BotCell } from './components/units/BotCell';
 
 function App() {
-  const userTitle = gameEngine.winner === 'user' ? 'User Win 🏆' : 'User';
-  const botTitle = gameEngine.winner === 'computer' ? 'Opponent Win 🏆' : 'Opponent';
+  const userTitle = gameEngine.winner === 'p1' ? 'User Win 🏆' : 'User';
+  const botTitle = gameEngine.winner === 'p2' ? 'Opponent Win 🏆' : 'Opponent';
   
   return (
     <div className="app-container">
@@ -19,7 +19,7 @@ function App() {
       <div className="boards-container">
         <GameBoard title={userTitle} Cell={UserCell} board={gameEngine.userBoard.board} />
         {gameEngine.userBoard.status !== 'setup' && 
-          <GameBoard title={botTitle} Cell={BotCell} board={gameEngine.computerBoard.board} />}
+          <GameBoard title={botTitle} Cell={BotCell} board={gameEngine.enemyBoard.board} />}
       </div>
     </div>
   );

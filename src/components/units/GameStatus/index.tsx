@@ -9,12 +9,12 @@ export const GameStatus = observer(() => {
       {status === 'inprogress' && <button className="reset-button" onClick={resetGame}>Re-start Game</button>}
       {gameEngine.status === 'gameover' && (
         <h4>
-          {winner === 'computer' ? 'You lost' : 'You won'}
+          {winner === 'p2' ? 'You lost' : 'You won'}
         </h4>
       )}
       {status === 'inprogress' && gameEngine.status === 'inprogress' && (
         <h4>
-          {turn === 'user' ? 'Your move' : 'Computer move'}
+          {turn === 'p1' ? 'Your move' : 'Computer move'}
         </h4>
       )}
     </div>

@@ -11,3 +11,8 @@ export enum BoatSizes {
   m = 3,
   l = 4,
 }
+
+export type BoardConfig = {
+  width: number;
+  height: number;
+}

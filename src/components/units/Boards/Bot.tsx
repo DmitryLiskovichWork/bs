@@ -3,7 +3,7 @@ import { Grid } from "../../molecules/Grid";
 import { BotCell } from "../BotCell";
 
 export const BotBoard = () => {
-  const board = gameEngine.computerBoard.board;
+  const board = gameEngine.enemyBoard.board;
 
   return (
     <div>
