@@ -2,12 +2,15 @@ import { makeObservable } from "mobx";
 import { BoardController } from "./Board.controller";
 import { Bot } from "./Bot";
 import { BoardConfig, Position } from "../types";
+import { BotCell } from "../components/units/BotCell";
 
 const BOT_ANSWER_DELAY = 400;
 
 export class BotBoardController extends BoardController {
+  title = 'Bot';
+  Cell = BotCell;
   bot: Bot;
-
+  
   constructor(config: BoardConfig) {
     super(config);
 

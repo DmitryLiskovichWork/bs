@@ -16,3 +16,9 @@ export type BoardConfig = {
   width: number;
   height: number;
 }
+
+export interface ICellProps {
+  xPos: number;
+  yPos: number;
+  cell: number;
+}

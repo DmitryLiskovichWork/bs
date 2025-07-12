@@ -36,19 +36,22 @@ export class GameEngine {
   }
 
   @computed get status() {
-    const enemyStatus = this.enemyBoard.status;
     const userStatus = this.userBoard.status;
 
     if(userStatus === 'setup') return 'setup';
 
-    const status = [enemyStatus, userStatus].includes('gameover') ? 'gameover' : 'inprogress';
+    const status = [this.enemyBoard.hasBoats, this.userBoard.hasBoats].includes(false) ? 'done' : 'inprogress';
 
     return status;
   }
 
   @computed get winner() {
-    if(this.status === 'gameover') {
-      return this.enemyBoard.status === 'gameover' ? 'p2' : 'p1';
+    if(!this.enemyBoard.hasBoats) {
+      return 'user';
+    }
+
+    if(!this.userBoard.hasBoats) {
+      return 'enemy';
     }
 
     return null;

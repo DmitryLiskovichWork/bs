@@ -1,27 +1,41 @@
-import { action, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { BoardController } from "./Board.controller";
 import { Position } from "../types";
 
 export class FightService {
-  @observable turn: 'p1' | 'p2' = 'p1';
+  @observable activeBoardId = 0
+  boards: [BoardController, BoardController];
   
-  constructor(private p1: BoardController, private p2: BoardController) {
+  // support only 2 boards
+  constructor(...boards: BoardController[]) {
+    this.boards = [boards[0], boards[1]];
+
+    // subscribe on all boards fire action
+    boards.forEach(board => board.subscribe('fire', this.fire))
+
     makeObservable(this)
-
-    this.p1.subscribe('fire', this.fire);
-    this.p2.subscribe('fire', this.fire);
-
-    this.p2.disabled = true;
   }
 
-  @action changeTurn = () => {
-    this[this.turn].disabled = true;
+  @computed get activeBoard() {
+    return this.boards[this.activeBoardId];
+  }
 
-    this.turn = this.turn === 'p1' ? 'p2' : 'p1';
+  get nextBoardId() {
+    if(this.activeBoardId >= this.boards.length - 1) {
+      return 0;
+    } else {
+      return this.activeBoardId + 1;
+    }
+  }
 
-    this[this.turn].disabled = false;
+  @action nextBoard = () => {
+    this.activeBoard.disabled = true;
 
-    this[this.turn]?.myTurn?.();
+    this.activeBoardId = this.nextBoardId;
+
+    this.activeBoard.disabled = false;
+    
+    this.activeBoard.myTurn();
   }
 
   @action hit(board: BoardController, position: Position) {
@@ -39,16 +53,14 @@ export class FightService {
       })
     }
 
-    if(!board.hasBoats) {
-      board.status = 'gameover';
-    }
-
     return isDestroyed;
   }
 
   fire = (position: Position) => {
     // getting enemy board to hit
-    const board = this.turn === 'p1' ? this.p2 : this.p1;
+    const board = this.boards[this.nextBoardId];
+
+    console.log(this.nextBoardId, board)
 
     const cell = board.board[position.y][position.x];
     
@@ -58,12 +70,12 @@ export class FightService {
     if(!isHit) {
       board.setPosition(position.x, position.y, -1);
 
-      this.changeTurn();
+      this.nextBoard();
 
       return { isHit, isDestroyed: false };
     }
 
-    this[this.turn].fired?.({ isHit, isDestroyed, position });
+    this.activeBoard.fired?.({ isHit, isDestroyed, position });
 
     return { isHit, isDestroyed };
   }

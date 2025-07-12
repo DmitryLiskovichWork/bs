@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { buildBoard } from "../utils/buildBoard";
-import { BoardConfig, BoatSizes, Direction, Position } from "../types";
+import { BoardConfig, BoatSizes, Direction, ICellProps, Position } from "../types";
 import { getAvailablePositionsWithDirections, getBoatFullPath, getRandomInt } from "../utils/boardFilling";
 import { boatsConfig } from "../config";
 
@@ -8,10 +8,13 @@ const hasBoats = (board: number[][]) =>
   board.some(row => row.some(cell => cell === 1))
 
 export abstract class BoardController {
+  abstract title: string;
+  abstract Cell: React.FC<ICellProps>
+
   emitter = new EventTarget();
   disabled = false;
 
-  @observable status: 'setup' | 'inprogress' | 'gameover' = 'setup';
+  @observable status: 'setup' | 'initialized' = 'setup';
   @observable.ref board: number[][] = [];
   @observable.ref boats: Position[][] = [];
 
@@ -19,6 +22,10 @@ export abstract class BoardController {
     makeObservable(this)
 
     this.init();
+  }
+
+  @computed get winnerTitle() {
+    return this.hasBoats ? `${this.title} is winner 🏆` : this.title;
   }
 
   @action setPosition = (x: number, y: number, value: number) => {
@@ -71,7 +78,7 @@ export abstract class BoardController {
       }
     });
 
-    this.status = 'inprogress';
+    this.status = 'initialized';
   }
 
   subscribe = (event: 'fire', callback: (position: Position) => void) => {   

@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { Direction, Position } from "../types";
 import { BoatConfig, boatsConfig } from "../config";
 import { findLongestPath } from "../utils/directions";
@@ -17,7 +17,7 @@ export class UserSetupService {
     return this.boatSizesLeft.filter(config => config.count > 0).map(config => config.size);
   }
 
-  get availablePaths () {
+  @computed get availablePaths () {
     return this.position ? findLongestPath(this.board.board, this.position, this.availableSizes) : null;
   }
 
@@ -33,7 +33,7 @@ export class UserSetupService {
     this.boatSizesLeft = this.boatSizesLeft.map(config => config.size === size ? { ...config, count: config.count - 1 } : config);
 
     if(!this.availableSizes.length) {
-      this.board.status = 'inprogress'
+      this.board.status = 'initialized'
     }
   }
 
@@ -88,16 +88,12 @@ export class UserSetupService {
         this.updateBoard(this.position.x, this.position.y, size, direction);
       }
 
-      this.resetPosition();
+      this.setPosition(null);
 
       return
     }
 
     this.setPosition({ x, y });
-  }
-
-  @action resetPosition = () => {
-    this.setPosition(null);
   }
 
   @action setPosition = (position: Position | null) => {

@@ -2,19 +2,19 @@ import { observer } from "mobx-react-lite";
 import { gameEngine } from "../../../services/GameEngine.store";
 
 export const GameStatus = observer(() => {
-  const { userBoard: { status }, fight: { turn }, winner, resetGame } = gameEngine;
+  const { userBoard: { status }, fight: { activeBoard }, resetGame } = gameEngine;
 
   return (
     <div>
-      {status === 'inprogress' && <button className="reset-button" onClick={resetGame}>Re-start Game</button>}
-      {gameEngine.status === 'gameover' && (
+      {status !== 'setup' && <button className="reset-button" onClick={resetGame}>Re-start Game</button>}
+      {status === 'initialized' && gameEngine.status === 'inprogress' && (
         <h4>
-          {winner === 'p2' ? 'You lost' : 'You won'}
+          {activeBoard.title} move
         </h4>
       )}
-      {status === 'inprogress' && gameEngine.status === 'inprogress' && (
+      {gameEngine.status === 'done' && (
         <h4>
-          {turn === 'p1' ? 'Your move' : 'Computer move'}
+          Your game is over, one more?
         </h4>
       )}
     </div>
