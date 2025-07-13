@@ -1,5 +1,5 @@
-import { Board } from "../../../types";
-import { Grid } from "../../molecules/Grid";
+import { Grid } from "@components/molecules/Grid";
+import { Board } from "types";
 
 type Props = {
   title: string;

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite"
-import { UserBoardController } from "../../../services/BoardsControllers/UserBoard.controller"
+import { UserBoardController } from "@services/BoardsControllers/UserBoard.controller"
 
 type Props = {
   board: UserBoardController

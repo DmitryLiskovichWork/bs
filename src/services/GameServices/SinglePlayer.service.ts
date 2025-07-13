@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable } from "mobx";
-import { BoardController } from "../BoardsControllers/Board.controller";
-import { IGameController, Position } from "../../types";
+import { BoardController } from "@services/BoardsControllers/Board.controller";
+import { IGameController, Position } from "types";
 
 export class SinglePlayerService implements IGameController {
   @observable activeBoardId = 0

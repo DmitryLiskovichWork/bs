@@ -1,9 +1,9 @@
 import { makeObservable, runInAction } from "mobx";
-import { BoardController } from "./Board.controller";
+import { BoardConfig, Position } from "types";
+import { UserCell } from "@components/units/UserCell";
+import { withUserBoard } from "@utils/hocs/withUserBoard";
 import { UserSetupService } from "./settings/UserSetup.service";
-import { BoardConfig, Position } from "../../types";
-import { UserCell } from "../../components/units/UserCell";
-import { withUserBoard } from "../../hocs/withUserBoard";
+import { BoardController } from "./Board.controller";
 import { BoardAutoFiller } from "./BoardAutoFiller.service";
 
 export class UserBoardController extends BoardController {

@@ -1,4 +1,4 @@
-import { UserBoardController } from "../services/BoardsControllers/UserBoard.controller";
+import { UserBoardController } from "@services/BoardsControllers/UserBoard.controller";
 
 type Component<T extends object> = React.ComponentType<T & { board: UserBoardController }>
 

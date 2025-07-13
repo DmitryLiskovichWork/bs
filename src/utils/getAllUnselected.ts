@@ -1,4 +1,4 @@
-import { Board, Position } from "../types";
+import { Board, Position } from "types";
 
 export const getAllUnselected = (board: Board) => {
   return board.reduce((acc, row, rowIndex) => {

@@ -1,4 +1,4 @@
-import { Board } from "../types";
+import { Board } from "types";
 
 export const changeBoardValue = (board: Board, x: number, y: number, value: number): Board => {
   const newBoard = [...board].map(row => [...row]);

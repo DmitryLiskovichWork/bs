@@ -1,5 +1,5 @@
-import { directions } from "../config";
-import type { Board, BoatSizes, Direction, Position } from "../types";
+import { directions } from "@config/index";
+import type { Board, BoatSizes, Direction, Position } from "types";
 import { getAroundPositions } from "./positions";
 
 const isEmptyCell = (board: Board, position: Position): boolean => board[position.y]?.[position.x] === 0;

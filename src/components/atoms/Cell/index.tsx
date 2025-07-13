@@ -1,11 +1,9 @@
-import { observer } from "mobx-react-lite";
-
 type Props = {
   className?: string;
   onClick?: () => void;
 }
 
-export const Cell = observer(({ className, onClick }: Props) => {
+export const Cell = ({ className, onClick }: Props) => {
   const classes = [
     'cell',
     ...(className ? [className] : []),
@@ -17,4 +15,4 @@ export const Cell = observer(({ className, onClick }: Props) => {
       onClick={onClick}
     />
   )
-})
+}

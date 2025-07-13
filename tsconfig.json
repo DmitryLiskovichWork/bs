@@ -19,7 +19,16 @@
     "isolatedModules": true,
     "noEmit": true,
     "experimentalDecorators": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "src",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@utils/*": ["utils/*"],
+      "@assets/*": ["assets/*"],
+      "@services/*": ["services/*"],
+      "@config/*": ["config/*"],
+      "types/*": ["types/*"]
+    }
   },
   "include": [
     "src"

@@ -1,9 +1,9 @@
 import { observer } from "mobx-react-lite";
-import { Cell } from "../../atoms/Cell";
-import { CellStatus } from "../../../config";
+import { Cell } from "@components/atoms/Cell";
+import { CellStatus } from "@config/index";
 import { useCallback } from "react";
-import { UserBoardController } from "../../../services/BoardsControllers/UserBoard.controller";
-import { ICellProps } from "../../../types";
+import { UserBoardController } from "@services/BoardsControllers/UserBoard.controller";
+import { ICellProps } from "types";
 
 type Props = ICellProps & {
   board: UserBoardController

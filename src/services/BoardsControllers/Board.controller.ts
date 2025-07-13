@@ -1,10 +1,10 @@
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
-import { buildBoard } from "../../utils/buildBoard";
-import { Board, BoardConfig, Direction, ICellProps, Position } from "../../types";
-import { getBoatFullPath } from "../../utils/boardFilling";
+import { buildBoard } from "@utils/buildBoard";
+import { Board, BoardConfig, Direction, ICellProps, Position } from "types";
+import { getBoatFullPath } from "@utils/boardFilling";
+import { changeBoardValue } from "@utils/changeBoardValue";
+import { Subscriptions } from "@utils/classes/Subscriptions";
 import { BoardAutoFiller } from "./BoardAutoFiller.service";
-import { changeBoardValue } from "../../utils/changeBoardValue";
-import { Subscriptions } from "../../utils/classes/Subscriptions";
 
 const hasBoats = (board: Board) => 
   board.some(row => row.some(cell => cell === 1))

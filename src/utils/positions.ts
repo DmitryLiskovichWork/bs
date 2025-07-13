@@ -1,4 +1,4 @@
-import { Board, Position } from "../types";
+import { Board, Position } from "types";
 import { isFieldAvailable, inBoardScope } from "./validation";
 
 export const getAvailablePositions = (board: Board): Position[] => 

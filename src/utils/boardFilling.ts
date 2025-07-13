@@ -1,5 +1,5 @@
-import { directions } from "../config";
-import { Board, BoatSizes, Direction, Position } from "../types";
+import { directions } from "@config/index";
+import { Board, BoatSizes, Direction, Position } from "types";
 import { getAvailableDirections } from "./directions";
 import { getAvailablePositions } from "./positions";
 

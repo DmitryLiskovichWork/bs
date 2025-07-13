@@ -1,8 +1,8 @@
-import { observer } from "mobx-react-lite";
-import { gameEngine } from "../../../services/GameEngine.store";
-import { Cell } from "../../atoms/Cell";
-import { CellStatus } from "../../../config";
 import { useCallback } from "react";
+import { observer } from "mobx-react-lite";
+import { gameEngine } from "@services/GameEngine.store";
+import { Cell } from "@components/atoms/Cell";
+import { CellStatus } from "@config/index";
 import { ICellProps } from "../../../types";
 
 export const EnemyCell = observer(({ xPos, yPos, cell }: ICellProps) => {
