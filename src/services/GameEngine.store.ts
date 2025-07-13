@@ -4,6 +4,7 @@ import { SinglePlayerService } from "./SinglePlayer.service";
 import { computed } from "mobx";
 import { BotBoardController } from "./BotBoard.controller";
 import { BoardConfig, IGameController } from "../types";
+import { UserBoardController } from "./UserBoard.controller";
 
 type GameSettings = {
   GameController: new (...boards: BoardController[]) => IGameController
@@ -64,5 +65,5 @@ export class GameEngine {
 export const gameEngine = new GameEngine(config, {
   GameController: SinglePlayerService,
   EnemyBoard: BotBoardController,
-  UserBoard: BotBoardController,
+  UserBoard: UserBoardController,
 });

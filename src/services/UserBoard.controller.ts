@@ -16,4 +16,10 @@ export class UserBoardController extends BoardController {
     this.setup = new UserSetupService(this);
     makeObservable(this)
   }
+
+  init = () => {
+    this.status = 'setup';
+    this.resetBoats();
+    this.createBoard();
+  }
 }

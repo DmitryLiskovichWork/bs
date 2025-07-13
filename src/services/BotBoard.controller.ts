@@ -16,9 +16,15 @@ export class BotBoardController extends BoardController {
 
     this.bot = new Bot(this.board);
 
-    this.autoFill();
+    this.init();
 
     makeObservable(this)
+  }
+
+  init = () => {
+    this.resetBoats();
+    this.createBoard();
+    this.autoFill();
   }
 
   getPosition = () => {

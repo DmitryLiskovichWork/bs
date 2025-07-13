@@ -21,7 +21,7 @@ export abstract class BoardController {
   constructor(private config: BoardConfig) {
     makeObservable(this)
 
-    this.init();
+    this.board = buildBoard(this.config.width, this.config.height)
   }
 
   @computed get winnerTitle() {
@@ -34,10 +34,13 @@ export abstract class BoardController {
     this.board = [...this.board];
   }
 
-  @action init = () => {
-    // this.status = 'setup';
-    this.boats = [];
+  abstract init: () => void;
 
+  @action resetBoats = () => {
+    this.boats = [];
+  }
+
+  @action createBoard = () => {
     this.board = buildBoard(this.config.width, this.config.height);
   }
 
@@ -70,8 +73,6 @@ export abstract class BoardController {
   }
 
   @action autoFill = () => {
-    this.init();
-
     boatsConfig.forEach(({ size, count }) => {
       for(let i = 0; i < count; i++) {
         this.randomizeBoatPlacement(size);
