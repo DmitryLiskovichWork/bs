@@ -30,3 +30,5 @@ export interface IGameController {
 
   fire: (position: Position) => void;
 }
+
+export type Board = number[][];

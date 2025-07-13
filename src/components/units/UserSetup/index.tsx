@@ -22,7 +22,7 @@ export const UserSetup = observer(({ board }: Props) => {
       <div>
         
       </div>
-      <button onClick={() => board.autoFill()}>Auto Fill Your Board</button>
+      <button onClick={() => board.autoFiller.fill()}>Auto Fill Your Board</button>
       <button onClick={() => board.setup.resetBoard()}>Reset Your Board</button>
     </div>
   ) : null

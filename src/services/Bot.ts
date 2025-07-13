@@ -1,5 +1,5 @@
 import { defaultDirections } from "../config/bot";
-import { Position } from "../types";
+import { Board, Position } from "../types";
 import { getRandomInt } from "../utils/boardFilling";
 import { getAroundPositions } from "../utils/positions";
 import { inBoardScope } from "../utils/validation";
@@ -11,7 +11,7 @@ export class Bot {
 
   iterations = 0;
 
-  constructor(private board: number[][]) {
+  constructor(private board: Board) {
     // fill available positions to fire
     for(let y = 0; y < this.board.length; y++) {
       for(let x = 0; x < this.board[y].length; x++) {

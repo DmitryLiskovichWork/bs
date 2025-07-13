@@ -1,27 +1,31 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { buildBoard } from "../utils/buildBoard";
-import { BoardConfig, BoatSizes, Direction, ICellProps, Position } from "../types";
-import { getAvailablePositionsWithDirections, getBoatFullPath, getRandomInt } from "../utils/boardFilling";
-import { boatsConfig } from "../config";
+import { Board, BoardConfig, Direction, ICellProps, Position } from "../types";
+import { getBoatFullPath } from "../utils/boardFilling";
+import { BoardAutoFiller } from "./BoardAutoFiller";
+import { changeBoardValue } from "../utils/changeBoardValue";
 
-const hasBoats = (board: number[][]) => 
+const hasBoats = (board: Board) => 
   board.some(row => row.some(cell => cell === 1))
 
 export abstract class BoardController {
   abstract title: string;
   abstract Cell: React.FC<ICellProps>
+  abstract autoFiller?: BoardAutoFiller;
+
+  abstract init: () => void;
 
   emitter = new EventTarget();
   disabled = false;
 
   @observable status: 'setup' | 'initialized' = 'setup';
-  @observable.ref board: number[][] = [];
+  @observable.ref board: Board = [];
   @observable.ref boats: Position[][] = [];
 
   constructor(private config: BoardConfig) {
     makeObservable(this)
 
-    this.board = buildBoard(this.config.width, this.config.height)
+    this.createBoard()
   }
 
   @computed get winnerTitle() {
@@ -29,12 +33,12 @@ export abstract class BoardController {
   }
 
   @action setPosition = (x: number, y: number, value: number) => {
-    this.board[y][x] = value;
-
-    this.board = [...this.board];
+    this.board = changeBoardValue(this.board, x, y, value);
   }
 
-  abstract init: () => void;
+  getPosition = (position: Position) => {
+    return this.board[position.y][position.x];
+  }
 
   @action resetBoats = () => {
     this.boats = [];
@@ -60,26 +64,6 @@ export abstract class BoardController {
 
   findBoat = (x: number, y: number) => {
     return this.boats.find(boat => boat.some(position => position.x === x && position.y === y))
-  }
-
-  private randomizeBoatPlacement = (size: BoatSizes) => {
-    const availablePositions = getAvailablePositionsWithDirections(this.board, size)
-    
-    const randomPosition = availablePositions[getRandomInt(0, availablePositions.length - 1)];
-  
-    const randomDirection = randomPosition.directions[getRandomInt(0, randomPosition.directions.length - 1)];
-  
-    return this.addBoat(randomPosition.position.x, randomPosition.position.y, size, randomDirection)
-  }
-
-  @action autoFill = () => {
-    boatsConfig.forEach(({ size, count }) => {
-      for(let i = 0; i < count; i++) {
-        this.randomizeBoatPlacement(size);
-      }
-    });
-
-    this.status = 'initialized';
   }
 
   subscribe = (event: 'fire', callback: (position: Position) => void) => {   

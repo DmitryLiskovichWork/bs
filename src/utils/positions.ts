@@ -1,7 +1,7 @@
-import { Position } from "../types";
+import { Board, Position } from "../types";
 import { isFieldAvailable, inBoardScope } from "./validation";
 
-export const getAvailablePositions = (board: number[][]): Position[] => 
+export const getAvailablePositions = (board: Board): Position[] => 
   board.reduce<Position[]>((acc, row, y) => {
     row.forEach((_, x) => {
       if(isFieldAvailable(board, { x, y })) {
@@ -12,7 +12,7 @@ export const getAvailablePositions = (board: number[][]): Position[] =>
     return acc;
   }, []);
 
-export const getAroundPositions = (board: number[][], position: Position): Position[] => {
+export const getAroundPositions = (board: Board, position: Position): Position[] => {
   const positions = [];
 
   for(let i = -1; i <= 1; i++) {

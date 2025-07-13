@@ -1,8 +1,9 @@
+import { Board } from "../../../types";
 import { Grid } from "../../molecules/Grid";
 
 type Props = {
   title: string;
-  board: number[][];
+  board: Board;
   Cell: React.ComponentType<{ xPos: number; yPos: number; cell: number }>;
 }
 

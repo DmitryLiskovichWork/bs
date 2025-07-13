@@ -1,5 +1,5 @@
 import { directions } from "../config";
-import { BoatSizes, Direction, Position } from "../types";
+import { Board, BoatSizes, Direction, Position } from "../types";
 import { getAvailableDirections } from "./directions";
 import { getAvailablePositions } from "./positions";
 
@@ -9,7 +9,7 @@ export const getRandomInt = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export const getAvailablePositionsWithDirections = (board: number[][], size: BoatSizes) => {
+export const getAvailablePositionsWithDirections = (board: Board, size: BoatSizes) => {
   const availablePositions = getAvailablePositions(board)
 
   return availablePositions.reduce<{ position: Position, directions: Direction[] }[]>((acc, position ) => {

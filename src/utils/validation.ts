@@ -1,16 +1,16 @@
 import { directions } from "../config";
-import type { BoatSizes, Direction, Position } from "../types";
+import type { Board, BoatSizes, Direction, Position } from "../types";
 import { getAroundPositions } from "./positions";
 
-const isEmptyCell = (board: number[][], position: Position): boolean => board[position.y]?.[position.x] === 0;
+const isEmptyCell = (board: Board, position: Position): boolean => board[position.y]?.[position.x] === 0;
 
-export const inBoardScope = (board: number[][], position: Position) => 
+export const inBoardScope = (board: Board, position: Position) => 
   position.x >= 0 && position.x < board[0].length && position.y >= 0 && position.y < board.length;
 
-export const isFieldAvailable = (board: number[][], position: Position) => 
+export const isFieldAvailable = (board: Board, position: Position) => 
   getAroundPositions(board, position).every(position => isEmptyCell(board, position))
 
-export const isEnoughSpaceForDirection = (board: number[][], position: Position, direction: Direction, size: BoatSizes) => {
+export const isEnoughSpaceForDirection = (board: Board, position: Position, direction: Direction, size: BoatSizes) => {
   const directionPath = directions[direction];
 
   return directionPath.slice(0, size - 1).every(p => {

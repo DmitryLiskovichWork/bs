@@ -58,7 +58,7 @@ export class SinglePlayerService implements IGameController {
 
     if(!boat) return false;
 
-    const isDestroyed = boat.every(position => board.board[position.y][position.x] === 2)
+    const isDestroyed = boat.every(position => board.getPosition(position) === 2)
 
     if(isDestroyed) {
       boat.forEach(position => {
@@ -70,7 +70,7 @@ export class SinglePlayerService implements IGameController {
   }
 
   fire = (position: Position) => {
-    const cell = this.oppositeBoard.board[position.y][position.x];
+    const cell = this.oppositeBoard.getPosition(position);
     
     const isHit = cell === 1;
     const isDestroyed = isHit ? this.hit(this.oppositeBoard, position) : false;
