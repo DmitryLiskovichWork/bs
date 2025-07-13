@@ -1,5 +1,5 @@
-import { BotLevel, botLevels, defaultDirections } from "../../config/bot";
-import { Board, Position } from "../../types";
+import { BotLevel, botLevels, defaultDirections } from "@config/bot";
+import { Board, Direction, Position } from "types";
 import { getRandomInt } from "../boardFilling";
 import { getAllUnselected } from "../getAllUnselected";
 import { getAroundPositions } from "../positions";
@@ -80,15 +80,15 @@ export class Bot {
   }
 
   // predict direction by two positions
-  getDirection = (position1: Position, position2: Position) => {
+  getDirection = (position1: Position, position2: Position): Direction[] => {
     const xDiff = position2.x - position1.x;
     const yDiff = position2.y - position1.y;
 
-    if(xDiff === 0) return ['up', 'down'];
+    if(xDiff === 0) return ['up' as const, 'down' as const];
 
-    if(yDiff === 0) return ['left', 'right'];
+    if(yDiff === 0) return ['left' as const, 'right' as const];
 
-    return ['up', 'down', 'left', 'right'];
+    return ['up' as const, 'down' as const, 'left' as const, 'right' as const];
   }
 
   // predict next hit by direction

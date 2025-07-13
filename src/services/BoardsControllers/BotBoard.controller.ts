@@ -1,7 +1,7 @@
 import { makeObservable } from "mobx";
 import { BoardController } from "./Board.controller";
 import { Bot } from "@utils/classes/Bot";
-import { BoardConfig, Position } from "types";
+import { GameConfig, Position } from "types";
 import { EnemyCell } from "@components/units/EnemyCell";
 import { BoardAutoFiller } from "./BoardAutoFiller.service";
 
@@ -12,7 +12,7 @@ export class BotBoardController extends BoardController {
 
   bot: Bot;
   
-  constructor(config: BoardConfig) {
+  constructor(config: GameConfig) {
     super(config);
 
     this.autoFiller = new BoardAutoFiller(this);

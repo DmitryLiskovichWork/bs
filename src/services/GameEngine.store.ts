@@ -1,15 +1,16 @@
 import { computed, makeObservable } from "mobx";
 import { config } from "@config/index";
+import { GameConfig } from "types";
 import { BoardController } from "./BoardsControllers/Board.controller";
 import { SinglePlayerService } from "./GameServices/SinglePlayer.service";
 import { BotBoardController } from "./BoardsControllers/BotBoard.controller";
 import { UserBoardController } from "./BoardsControllers/UserBoard.controller";
-import { BoardConfig, IGameController } from "types";
+import { IGameController } from "./GameServices/types";
 
 type GameSettings = {
   GameController: new (...boards: BoardController[]) => IGameController
-  EnemyBoard: new (config: BoardConfig) => BoardController
-  UserBoard: new (config: BoardConfig) => BoardController
+  EnemyBoard: new (config: GameConfig) => BoardController
+  UserBoard: new (config: GameConfig) => BoardController
 }
 
 
@@ -18,7 +19,7 @@ export class GameEngine {
   enemyBoard: BoardController;
   gameController: IGameController;
 
-  constructor(private config: BoardConfig, settings: GameSettings) {
+  constructor(private config: GameConfig, settings: GameSettings) {
     const { GameController, EnemyBoard, UserBoard } = settings;
 
     this.userBoard = new UserBoard(this.config)

@@ -1,5 +1,5 @@
 import { makeObservable, runInAction } from "mobx";
-import { BoardConfig, Position } from "types";
+import { GameConfig, Position } from "types";
 import { UserCell } from "@components/units/UserCell";
 import { withUserBoard } from "@utils/hocs/withUserBoard";
 import { UserSetupService } from "./settings/UserSetup.service";
@@ -12,7 +12,7 @@ export class UserBoardController extends BoardController {
   Cell = withUserBoard(UserCell, this);
   autoFiller: BoardAutoFiller;
 
-  constructor(config: BoardConfig) {
+  constructor(config: GameConfig) {
     super(config);
 
     this.autoFiller = new BoardAutoFiller(this);

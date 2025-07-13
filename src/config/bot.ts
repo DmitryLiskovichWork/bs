@@ -1,4 +1,6 @@
-export const defaultDirections = [
+import { Direction } from "types";
+
+export const defaultDirections: { x: number, y: number, dir: Direction }[] = [
   { x: 1, y: 0, dir: 'right' },
   { x: -1, y: 0, dir: 'left' },
   { x: 0, y: 1, dir: 'down' },

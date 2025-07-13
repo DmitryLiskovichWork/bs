@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { buildBoard } from "@utils/buildBoard";
-import { Board, BoardConfig, Direction, ICellProps, Position } from "types";
+import { Board, GameConfig, Direction, ICellProps, Position } from "types";
 import { getBoatFullPath } from "@utils/boardFilling";
 import { changeBoardValue } from "@utils/changeBoardValue";
 import { Subscriptions } from "@utils/classes/Subscriptions";
@@ -27,7 +27,7 @@ export abstract class BoardController {
   @observable.ref board: Board = [];
   @observable.ref boats: Position[][] = [];
 
-  constructor(protected config: BoardConfig) {
+  constructor(protected config: GameConfig) {
     this.createBoard()
 
     makeObservable(this)
