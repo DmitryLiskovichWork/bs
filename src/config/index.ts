@@ -3,7 +3,7 @@ import { BoatSizes, Direction, Position } from "../types"
 export const config = {
   width: 10,
   height: 10,
-  botAnswerRate: 10,
+  botAnswerRate: 300,
   botLevel: 'hard' as const
 }
 

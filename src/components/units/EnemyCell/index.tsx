@@ -9,7 +9,7 @@ export const EnemyCell = observer(({ xPos, yPos, cell }: ICellProps) => {
   const { gameController: { fire }, status} = gameEngine;
 
   const classes = [
-    ...((cell !== 1 || status === 'done') && cell in CellStatus ? [CellStatus[cell as CellStatus]] : []),
+    ...((cell !== 1 || status === 'finished') && cell in CellStatus ? [CellStatus[cell as CellStatus]] : []),
   ]
 
   const onClick = useCallback(() => {

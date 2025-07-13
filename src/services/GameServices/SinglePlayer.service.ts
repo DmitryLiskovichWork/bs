@@ -38,7 +38,7 @@ export class SinglePlayerService implements IGameController {
     return this.boards[this.activeBoardId];
   }
 
-  @computed private get oppositeBoard() {
+  @computed private get opponentBoard() {
     return this.boards[this.nextBoardId];
   }
 
@@ -53,15 +53,17 @@ export class SinglePlayerService implements IGameController {
   @action private nextBoard = () => {
     if(this.boards.some(board => !board.hasBoats)) {
       this.activeBoard.disabled = true;
-      this.oppositeBoard.disabled = true;
+      this.opponentBoard.disabled = true;
 
       return
     }
 
-    this.activeBoard.disabled = true;
-    this.oppositeBoard.disabled = false;
-
     this.activeBoardId = this.nextBoardId;
+  
+    // disabled opponent board while active board is moving
+    this.activeBoard.disabled = false;
+    this.opponentBoard.disabled = true;
+
     
     this.activeBoard.move();
   }
@@ -86,15 +88,15 @@ export class SinglePlayerService implements IGameController {
 
   fire = (position: Position) => {
     // fire is only possible if both boards has boats
-    if(!this.oppositeBoard.hasBoats && this.activeBoard.hasBoats) return
+    if(!this.opponentBoard.hasBoats && this.activeBoard.hasBoats) return
 
-    const cell = this.oppositeBoard.getPosition(position);
+    const cell = this.opponentBoard.getPosition(position);
     
     const isHit = cell === 1;
-    const isDestroyed = isHit ? this.hit(this.oppositeBoard, position) : false;
+    const isDestroyed = isHit ? this.hit(this.opponentBoard, position) : false;
 
     if(!isHit) {
-      this.oppositeBoard.setPosition(position.x, position.y, -1);
+      this.opponentBoard.setPosition(position.x, position.y, -1);
 
       this.nextBoard();
 

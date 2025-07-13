@@ -3,7 +3,7 @@ import { BoardController } from "./Board.controller";
 import { Bot } from "../../utils/classes/Bot";
 import { BoardConfig, Position } from "../../types";
 import { EnemyCell } from "../../components/units/EnemyCell";
-import { BoardAutoFiller } from "../BoardAutoFiller.service";
+import { BoardAutoFiller } from "./BoardAutoFiller.service";
 
 export class BotBoardController extends BoardController {
   title = 'Bot';
@@ -27,6 +27,7 @@ export class BotBoardController extends BoardController {
     this.resetBoats();
     this.createBoard();
     this.bot.reset()
+
     this.autoFiller.fill();
   }
 

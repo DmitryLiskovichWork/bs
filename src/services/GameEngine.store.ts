@@ -41,7 +41,7 @@ export class GameEngine {
 
     if(userStatus === 'setup') return 'setup';
 
-    const status = [this.enemyBoard.hasBoats, this.userBoard.hasBoats].includes(false) ? 'done' : 'inprogress';
+    const status = [this.enemyBoard.hasBoats, this.userBoard.hasBoats].includes(false) ? 'finished' : 'inprogress';
 
     return status;
   }

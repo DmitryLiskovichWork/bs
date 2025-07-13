@@ -1,10 +1,10 @@
 import { action, makeObservable } from "mobx";
-import { boatsConfig } from "../config";
-import { BoatSizes } from "../types";
-import { getRandomInt } from "../utils/boardFilling";
+import { boatsConfig } from "../../config";
+import { BoatSizes } from "../../types";
+import { getRandomInt } from "../../utils/boardFilling";
 
-import { getAvailablePositionsWithDirections } from "../utils/boardFilling";
-import { BoardController } from "./BoardsControllers/Board.controller";
+import { getAvailablePositionsWithDirections } from "../../utils/boardFilling";
+import { BoardController } from "./Board.controller";
 
 export class BoardAutoFiller {
   constructor(private board: BoardController) {

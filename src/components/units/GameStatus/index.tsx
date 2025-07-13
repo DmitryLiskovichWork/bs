@@ -12,7 +12,7 @@ export const GameStatus = observer(() => {
           {activeBoard.title} move
         </h4>
       )}
-      {gameEngine.status === 'done' && (
+      {gameEngine.status === 'finished' && (
         <h4>
           Your game is over, one more?
         </h4>

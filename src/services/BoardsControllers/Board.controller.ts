@@ -1,8 +1,8 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { buildBoard } from "../../utils/buildBoard";
 import { Board, BoardConfig, Direction, ICellProps, Position } from "../../types";
 import { getBoatFullPath } from "../../utils/boardFilling";
-import { BoardAutoFiller } from "../BoardAutoFiller.service";
+import { BoardAutoFiller } from "./BoardAutoFiller.service";
 import { changeBoardValue } from "../../utils/changeBoardValue";
 import { Subscriptions } from "../../utils/classes/Subscriptions";
 
@@ -12,7 +12,7 @@ const hasBoats = (board: Board) =>
 export abstract class BoardController {
   abstract title: string;
   abstract Cell: React.FC<ICellProps>
-  abstract autoFiller?: BoardAutoFiller;
+  abstract autoFiller?: BoardAutoFiller | null;
 
   abstract fireResult: (props: { isHit: boolean, isDestroyed: boolean, position: Position }) => void;
   // signal that the board can make next move
@@ -41,8 +41,18 @@ export abstract class BoardController {
     this.board = changeBoardValue(this.board, x, y, value);
   }
 
+  changeStatus = (status: 'setup' | 'initialized') => {
+    runInAction(() => {
+      this.status = status;
+    })
+  }
+
   getPosition = (position: Position) => {
     return this.board[position.y][position.x];
+  }
+
+  fill = () => {
+    this.autoFiller?.fill()
   }
 
   @action resetBoats = () => {
