@@ -1,21 +1,37 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { BoardController } from "./Board.controller";
 import { IGameController, Position } from "../types";
+import { getRandomInt } from "../utils/boardFilling";
 
 export class SinglePlayerService implements IGameController {
-  @observable activeBoardId = 0
+  @observable activeBoardId = getRandomInt(0, 1)
+  unsubscribes: (() => void)[] = []
   boards: [BoardController, BoardController];
   
   // support only 2 boards
   constructor(...boards: BoardController[]) {
     this.boards = [boards[0], boards[1]];
 
-    // subscribe on all boards fire action
-    boards.forEach(board => board.subscribe('fire', this.fire))
-
-    this.activeBoard.myTurn()
+    this.initBoards()
+    this.activeBoard.move()
 
     makeObservable(this)
+  }
+
+  // subscribe on all boards fire action
+  @action initBoards = () => {
+    this.unsubscribes.forEach(unsubscribe => unsubscribe())
+
+    this.unsubscribes = this.boards.map(board => {
+      board.init()
+      return board.subscribe('fire', this.fire)
+    })
+
+    this.activeBoardId = getRandomInt(0, 1);
+  }
+
+  @action restart = () => {
+    this.initBoards()
   }
 
   @computed get activeBoard() {
@@ -26,7 +42,7 @@ export class SinglePlayerService implements IGameController {
     return this.boards[this.nextBoardId];
   }
 
-  get nextBoardId() {
+  @computed get nextBoardId() {
     if(this.activeBoardId >= this.boards.length - 1) {
       return 0;
     } else {
@@ -48,10 +64,10 @@ export class SinglePlayerService implements IGameController {
 
     this.activeBoard.disabled = false;
     
-    this.activeBoard.myTurn();
+    this.activeBoard.move();
   }
 
-  @action hit(board: BoardController, position: Position) {
+  hit(board: BoardController, position: Position) {
     const boat = board.findBoat(position.x, position.y)
 
     board.setPosition(position.x, position.y, 2);

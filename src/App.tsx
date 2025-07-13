@@ -1,3 +1,4 @@
+import React from 'react';
 import { observer } from 'mobx-react-lite';
 import './App.css';
 import { gameEngine } from './services/GameEngine.store';
@@ -12,16 +13,15 @@ function App() {
       <GameStatus />
 
       <div className="boards-container">
-        {gameEngine.boards.map((board) => (
-          <>
+        {gameEngine.boards.map((board, index) => (
+          <React.Fragment key={`${board.title}_${index}`}>
             {board instanceof UserBoardController && <UserSetup board={board} />}
             <GameBoard 
-              key={board.title} 
               title={gameEngine.status === 'done' ? board.winnerTitle : board.title} 
               Cell={board.Cell} 
               board={board.board} 
             />
-          </>
+          </React.Fragment>
         ))}
       </div>
     </div>

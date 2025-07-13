@@ -1,17 +1,18 @@
 import { makeObservable } from "mobx";
 import { BoardController } from "./Board.controller";
-import { Bot } from "./Bot";
+import { Bot } from "../utils/Bot";
 import { BoardConfig, Position } from "../types";
 import { BotCell } from "../components/units/BotCell";
-import { BoardAutoFiller } from "./BoardAutoFiller";
+import { BoardAutoFiller } from "./BoardAutoFiller.service";
 
 const BOT_ANSWER_DELAY = 400;
 
 export class BotBoardController extends BoardController {
   title = 'Bot';
   Cell = BotCell;
-  bot: Bot;
   autoFiller: BoardAutoFiller;
+
+  bot: Bot;
   
   constructor(config: BoardConfig) {
     super(config);
@@ -19,8 +20,6 @@ export class BotBoardController extends BoardController {
     this.autoFiller = new BoardAutoFiller(this);
 
     this.bot = new Bot(this.board);
-
-    this.init();
 
     makeObservable(this)
   }
@@ -51,7 +50,7 @@ export class BotBoardController extends BoardController {
     }
   }
 
-  myTurn = () => {
+  move = () => {
     this.fire(this.bot.getNextPosition());
   }
 }

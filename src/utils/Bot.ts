@@ -1,15 +1,13 @@
 import { defaultDirections } from "../config/bot";
 import { Board, Position } from "../types";
-import { getRandomInt } from "../utils/boardFilling";
-import { getAroundPositions } from "../utils/positions";
-import { inBoardScope } from "../utils/validation";
+import { getRandomInt } from "./boardFilling";
+import { getAroundPositions } from "./positions";
+import { inBoardScope } from "./validation";
 
 export class Bot {
   private hitsSeries: Position[] = [];
   private nextPossiblePositions: Position[] = [];
   private availablePositions: Position[] = [];
-
-  iterations = 0;
 
   constructor(private board: Board) {
     // fill available positions to fire
@@ -30,8 +28,6 @@ export class Bot {
   }
 
   getNextPosition = () => {
-    this.iterations++;
-
     const nextPosition = this.decideNextPosition();
 
     this.updateAvailablePositions(nextPosition);

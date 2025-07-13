@@ -2,8 +2,9 @@ import { action, computed, makeObservable, observable } from "mobx";
 import { buildBoard } from "../utils/buildBoard";
 import { Board, BoardConfig, Direction, ICellProps, Position } from "../types";
 import { getBoatFullPath } from "../utils/boardFilling";
-import { BoardAutoFiller } from "./BoardAutoFiller";
+import { BoardAutoFiller } from "./BoardAutoFiller.service";
 import { changeBoardValue } from "../utils/changeBoardValue";
+import { Subscriptions } from "../utils/Subscriptions";
 
 const hasBoats = (board: Board) => 
   board.some(row => row.some(cell => cell === 1))
@@ -15,7 +16,7 @@ export abstract class BoardController {
 
   abstract init: () => void;
 
-  emitter = new EventTarget();
+  subs = new Subscriptions();
   disabled = false;
 
   @observable status: 'setup' | 'initialized' = 'setup';
@@ -66,21 +67,12 @@ export abstract class BoardController {
     return this.boats.find(boat => boat.some(position => position.x === x && position.y === y))
   }
 
-  subscribe = (event: 'fire', callback: (position: Position) => void) => {   
-    const listener = ((event: CustomEvent) => {
-      callback(event.detail);
-    }) as EventListener;
-    
-    this.emitter.addEventListener(event, listener);
+  subscribe = (event: 'fire', callback: (position: Position) => void) => 
+    this.subs.subscribe(event, callback)
 
-    return () => this.emitter.removeEventListener(event, listener);
-  }
-
-  emit = (event: 'fire', position: Position) => {
-    this.emitter.dispatchEvent(new CustomEvent(event, { detail: position }));
-  }
+  emit = (event: 'fire', position: Position) => this.subs.emit(event, position)
 
   fired: ({ isHit, isDestroyed, position }: { isHit: boolean, isDestroyed: boolean, position: Position }) => void = () => {};
 
-  myTurn: () => void = () => {};
+  move: () => void = () => {};
 }

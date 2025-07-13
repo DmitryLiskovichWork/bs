@@ -4,7 +4,7 @@ import { UserSetupService } from "./UserSetup.service";
 import { BoardConfig } from "../types";
 import { UserCell } from "../components/units/UserCell";
 import { withUserBoard } from "../hocs/withUserBoard";
-import { BoardAutoFiller } from "./BoardAutoFiller";
+import { BoardAutoFiller } from "./BoardAutoFiller.service";
 
 export class UserBoardController extends BoardController {
   setup: UserSetupService;

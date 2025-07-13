@@ -29,6 +29,7 @@ export interface IGameController {
   activeBoard: BoardController;
 
   fire: (position: Position) => void;
+  restart: () => void;
 }
 
 export type Board = number[][];
