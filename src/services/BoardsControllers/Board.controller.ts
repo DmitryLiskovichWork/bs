@@ -33,10 +33,6 @@ export abstract class BoardController {
     makeObservable(this)
   }
 
-  @computed get winnerTitle() {
-    return this.hasBoats ? `${this.title} is winner 🏆` : this.title;
-  }
-
   @action setPosition = (x: number, y: number, value: number) => {
     this.board = changeBoardValue(this.board, x, y, value);
   }

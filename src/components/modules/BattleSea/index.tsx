@@ -6,21 +6,28 @@ import { GameStatus } from "../../units/GameStatus"
 import { UserSetup } from "../../units/UserSetup"
 
 export const BattleSea = () => {
+  const boards = gameEngine.boards.map((board, index) => {
+    const title = gameEngine.status === 'finished' && board.hasBoats ? 
+      `${board.title} is winner 🏆` : board.title;
+
+    return (
+      <React.Fragment key={`${board.title}_${index}`}>
+        {board instanceof UserBoardController && <UserSetup board={board} />}
+        <GameBoard 
+          title={title} 
+          Cell={board.Cell} 
+          board={board.board} 
+        />
+      </React.Fragment>
+    )
+  })
+  
   return (
     <div>
       <GameStatus />
 
       <div className="boards-container">
-        {gameEngine.boards.map((board, index) => (
-          <React.Fragment key={`${board.title}_${index}`}>
-            {board instanceof UserBoardController && <UserSetup board={board} />}
-            <GameBoard 
-              title={gameEngine.status === 'finished' ? board.winnerTitle : board.title} 
-              Cell={board.Cell} 
-              board={board.board} 
-            />
-          </React.Fragment>
-        ))}
+        {boards}
       </div>
     </div>
   )

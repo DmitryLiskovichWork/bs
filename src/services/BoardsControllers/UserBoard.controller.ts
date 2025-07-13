@@ -1,4 +1,4 @@
-import { action, makeObservable, runInAction } from "mobx";
+import { makeObservable, runInAction } from "mobx";
 import { BoardController } from "./Board.controller";
 import { UserSetupService } from "./settings/UserSetup.service";
 import { BoardConfig } from "../../types";
