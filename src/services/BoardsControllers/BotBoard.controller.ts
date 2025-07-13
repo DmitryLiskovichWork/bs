@@ -1,6 +1,6 @@
 import { makeObservable } from "mobx";
 import { BoardController } from "./Board.controller";
-import { Bot } from "../../utils/Bot";
+import { Bot } from "../../utils/classes/Bot";
 import { BoardConfig, Position } from "../../types";
 import { BotCell } from "../../components/units/BotCell";
 import { BoardAutoFiller } from "../BoardAutoFiller.service";

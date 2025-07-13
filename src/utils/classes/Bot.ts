@@ -1,9 +1,9 @@
-import { BotLevel, botLevels, defaultDirections } from "../config/bot";
-import { Board, Position } from "../types";
-import { getRandomInt } from "./boardFilling";
-import { getAllUnselected } from "./getAllUnselected";
-import { getAroundPositions } from "./positions";
-import { inBoardScope } from "./validation";
+import { BotLevel, botLevels, defaultDirections } from "../../config/bot";
+import { Board, Position } from "../../types";
+import { getRandomInt } from "../boardFilling";
+import { getAllUnselected } from "../getAllUnselected";
+import { getAroundPositions } from "../positions";
+import { inBoardScope } from "../validation";
 
 export class Bot {
   private hitsSeries: Position[] = [];

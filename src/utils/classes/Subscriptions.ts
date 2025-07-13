@@ -1,7 +1,7 @@
-export class Subscriptions {
+export class Subscriptions <Events extends string>{
   emitter = new EventTarget();
 
-  subscribe = (event: 'fire', callback: (data: any) => void) => {   
+  subscribe = (event: Events, callback: (data: any) => void) => {   
     const listener = ((event: CustomEvent) => {
       callback(event.detail);
     }) as EventListener;
@@ -11,7 +11,7 @@ export class Subscriptions {
     return () => this.emitter.removeEventListener(event, listener);
   }
 
-  emit = (event: 'fire', data: any) => {
+  emit = (event: Events, data: any) => {
     this.emitter.dispatchEvent(new CustomEvent(event, { detail: data }));
   }
 }

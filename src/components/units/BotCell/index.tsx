@@ -3,14 +3,9 @@ import { gameEngine } from "../../../services/GameEngine.store";
 import { Cell } from "../../atoms/Cell";
 import { CellStatus } from "../../../config";
 import { useCallback } from "react";
+import { ICellProps } from "../../../types";
 
-type Props = {
-  xPos: number;
-  yPos: number;
-  cell: number;
-}
-
-export const BotCell = observer(({ xPos, yPos, cell }: Props) => {
+export const BotCell = observer(({ xPos, yPos, cell }: ICellProps) => {
   const { gameController: { fire }, status} = gameEngine;
 
   const classes = [

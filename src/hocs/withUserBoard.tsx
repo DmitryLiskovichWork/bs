@@ -1,7 +1,8 @@
 import { UserBoardController } from "../services/BoardsControllers/UserBoard.controller";
-import { ICellProps } from "../types";
 
-export const withUserBoard = (
-  Component: React.ComponentType<ICellProps & { board: UserBoardController }>, 
+type Component<T extends object> = React.ComponentType<T & { board: UserBoardController }>
+
+export const withUserBoard = <T extends object>(
+  Component: Component<T>, 
   board: UserBoardController
-) => (props: ICellProps) => <Component {...props} board={board} />
+) => (props: T) => <Component {...props} board={board} />

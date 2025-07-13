@@ -3,11 +3,9 @@ import { Cell } from "../../atoms/Cell";
 import { CellStatus } from "../../../config";
 import { useCallback } from "react";
 import { UserBoardController } from "../../../services/BoardsControllers/UserBoard.controller";
+import { ICellProps } from "../../../types";
 
-type Props = {
-  xPos: number;
-  yPos: number;
-  cell: number;
+type Props = ICellProps & {
   board: UserBoardController
 }
 
