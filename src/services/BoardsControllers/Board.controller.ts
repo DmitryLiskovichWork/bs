@@ -15,6 +15,8 @@ export abstract class BoardController {
   abstract autoFiller?: BoardAutoFiller;
 
   abstract fireResult: (props: { isHit: boolean, isDestroyed: boolean, position: Position }) => void;
+  // signal that the board can make next move
+  // possible to use for triggering, if it's bot
   abstract move: () => void;
   abstract init: () => void;
 

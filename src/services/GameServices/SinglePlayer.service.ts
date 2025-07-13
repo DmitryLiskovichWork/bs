@@ -59,10 +59,9 @@ export class SinglePlayerService implements IGameController {
     }
 
     this.activeBoard.disabled = true;
+    this.oppositeBoard.disabled = false;
 
     this.activeBoardId = this.nextBoardId;
-
-    this.activeBoard.disabled = false;
     
     this.activeBoard.move();
   }
