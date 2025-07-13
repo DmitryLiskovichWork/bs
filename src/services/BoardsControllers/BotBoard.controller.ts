@@ -28,7 +28,7 @@ export class BotBoardController extends BoardController {
     this.createBoard();
     this.bot.reset()
 
-    this.autoFiller.fill();
+    this.fill();
   }
 
   fire = () => {

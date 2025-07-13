@@ -22,6 +22,7 @@ export class SinglePlayerService implements IGameController {
 
     this.unsubscribes = this.boards.map(board => {
       board.init()
+
       return board.subscribe('fire', this.fire)
     })
 
@@ -88,7 +89,7 @@ export class SinglePlayerService implements IGameController {
 
   fire = (position: Position) => {
     // fire is only possible if both boards has boats
-    if(!this.opponentBoard.hasBoats && this.activeBoard.hasBoats) return
+    if(!this.opponentBoard.hasBoats || !this.activeBoard.hasBoats) return
 
     const cell = this.opponentBoard.getPosition(position);
     
