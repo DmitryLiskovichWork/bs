@@ -23,7 +23,12 @@ export class UserBoardController extends BoardController {
 
   init = () => {
     this.status = 'setup';
+    this.setup.resetBoard()
     this.resetBoats();
     this.createBoard();
   }
+
+  fireResult = () => {}
+
+  move = () => {}
 }

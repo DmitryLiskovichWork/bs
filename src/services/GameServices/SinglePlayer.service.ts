@@ -1,10 +1,9 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { BoardController } from "../BoardsControllers/Board.controller";
 import { IGameController, Position } from "../../types";
-import { getRandomInt } from "../../utils/boardFilling";
 
 export class SinglePlayerService implements IGameController {
-  @observable activeBoardId = getRandomInt(0, 1)
+  @observable activeBoardId = 0
   unsubscribes: (() => void)[] = []
   boards: [BoardController, BoardController];
   
@@ -13,13 +12,12 @@ export class SinglePlayerService implements IGameController {
     this.boards = [boards[0], boards[1]];
 
     this.initBoards()
-    this.activeBoard.move()
 
     makeObservable(this)
   }
 
   // subscribe on all boards fire action
-  @action initBoards = () => {
+  @action private initBoards = () => {
     this.unsubscribes.forEach(unsubscribe => unsubscribe())
 
     this.unsubscribes = this.boards.map(board => {
@@ -27,7 +25,9 @@ export class SinglePlayerService implements IGameController {
       return board.subscribe('fire', this.fire)
     })
 
-    this.activeBoardId = getRandomInt(0, 1);
+    this.activeBoardId = 0;
+
+    this.activeBoard.move()
   }
 
   @action restart = () => {
@@ -38,11 +38,11 @@ export class SinglePlayerService implements IGameController {
     return this.boards[this.activeBoardId];
   }
 
-  @computed get oppositeBoard() {
+  @computed private get oppositeBoard() {
     return this.boards[this.nextBoardId];
   }
 
-  @computed get nextBoardId() {
+  @computed private get nextBoardId() {
     if(this.activeBoardId >= this.boards.length - 1) {
       return 0;
     } else {
@@ -50,7 +50,7 @@ export class SinglePlayerService implements IGameController {
     }
   }
 
-  @action nextBoard = () => {
+  @action private nextBoard = () => {
     if(this.boards.some(board => !board.hasBoats)) {
       this.activeBoard.disabled = true;
       this.oppositeBoard.disabled = true;
@@ -67,7 +67,7 @@ export class SinglePlayerService implements IGameController {
     this.activeBoard.move();
   }
 
-  hit(board: BoardController, position: Position) {
+  private hit(board: BoardController, position: Position) {
     const boat = board.findBoat(position.x, position.y)
 
     board.setPosition(position.x, position.y, 2);
@@ -99,7 +99,7 @@ export class SinglePlayerService implements IGameController {
       return { isHit, isDestroyed: false };
     }
 
-    this.activeBoard.fired?.({ isHit, isDestroyed, position });
+    this.activeBoard.fireResult({ isHit, isDestroyed, position });
 
     return { isHit, isDestroyed };
   }

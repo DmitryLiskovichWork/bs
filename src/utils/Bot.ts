@@ -9,7 +9,17 @@ export class Bot {
   private nextPossiblePositions: Position[] = [];
   private availablePositions: Position[] = [];
 
+  // just analytics for how good bot is
+  iteration = 0;
+
   constructor(private board: Board) {
+    this.init()
+  }
+
+  private init = () => {
+    this.availablePositions = [];
+    this.nextPossiblePositions = [];
+    
     // fill available positions to fire
     for(let y = 0; y < this.board.length; y++) {
       for(let x = 0; x < this.board[y].length; x++) {
@@ -18,19 +28,25 @@ export class Bot {
     }
   }
 
+  reset = () => {
+    this.init()
+  }
+
   updateHits = (position: Position) => {
     this.nextPossiblePositions.push(position);
     this.hitsSeries.push(position);
   }
 
-  updateAvailablePositions = (position: Position) => {
+  removeAvailablePosition = (position: Position) => {
     this.availablePositions = this.availablePositions.filter(p => p.x !== position.x || p.y !== position.y);
   }
 
   getNextPosition = () => {
+    this.iteration++;
+
     const nextPosition = this.decideNextPosition();
 
-    this.updateAvailablePositions(nextPosition);
+    this.removeAvailablePosition(nextPosition);
     
     return nextPosition;
   }
@@ -50,6 +66,10 @@ export class Bot {
   private decideNextPosition = () => {
     const possiblePosition = this.nextPossiblePositions?.find(position => this.predictNextHit(position));
     const predictedPosition = possiblePosition ? this.predictNextHit(possiblePosition) : null;
+
+    if(this.availablePositions.length === 0) {
+      console.log(this.nextPossiblePositions, this.hitsSeries)
+    }
 
     if(predictedPosition) {
       return predictedPosition;

@@ -5,7 +5,7 @@ import { BoardConfig, Position } from "../../types";
 import { BotCell } from "../../components/units/BotCell";
 import { BoardAutoFiller } from "../BoardAutoFiller.service";
 
-const BOT_ANSWER_DELAY = 400;
+const BOT_ANSWER_DELAY = 300;
 
 export class BotBoardController extends BoardController {
   title = 'Bot';
@@ -25,18 +25,22 @@ export class BotBoardController extends BoardController {
   }
 
   init = () => {
+    this.disabled = false;
     this.resetBoats();
     this.createBoard();
+    this.bot.reset()
     this.autoFiller.fill();
   }
 
-  fire = (position: Position) => {
+  fire = () => {
     if(this.disabled) return;
+
+    const nextPosition = this.bot.getNextPosition();
     
-    setTimeout(() => this.emit('fire', position), BOT_ANSWER_DELAY)
+    setTimeout(() => this.emit('fire', nextPosition), BOT_ANSWER_DELAY)
   }
 
-  fired = ({ isHit, isDestroyed, position }: { isHit: boolean, isDestroyed: boolean, position: Position }) => {
+  fireResult = ({ isHit, isDestroyed, position }: { isHit: boolean, isDestroyed: boolean, position: Position }) => {
     if(isHit && !isDestroyed) {
       this.bot.updateHits(position);
     }
@@ -46,11 +50,9 @@ export class BotBoardController extends BoardController {
     }
 
     if(isHit || isDestroyed) {
-      this.fire(this.bot.getNextPosition());
+      this.fire();
     }
   }
 
-  move = () => {
-    this.fire(this.bot.getNextPosition());
-  }
+  move = this.fire
 }

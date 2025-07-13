@@ -1,8 +1,9 @@
+import { computed } from "mobx";
 import { config } from "../config";
 import { BoardController } from "./BoardsControllers/Board.controller";
 import { SinglePlayerService } from "./GameServices/SinglePlayer.service";
-import { computed } from "mobx";
 import { BotBoardController } from "./BoardsControllers/BotBoard.controller";
+import { UserBoardController } from "./BoardsControllers/UserBoard.controller";
 import { BoardConfig, IGameController } from "../types";
 
 type GameSettings = {
@@ -42,22 +43,10 @@ export class GameEngine {
 
     return status;
   }
-
-  @computed get winner() {
-    if(!this.enemyBoard.hasBoats) {
-      return 'user';
-    }
-
-    if(!this.userBoard.hasBoats) {
-      return 'enemy';
-    }
-
-    return null;
-  }
 }
 
 export const gameEngine = new GameEngine(config, {
   GameController: SinglePlayerService,
   EnemyBoard: BotBoardController,
-  UserBoard: BotBoardController,
+  UserBoard: UserBoardController,
 });

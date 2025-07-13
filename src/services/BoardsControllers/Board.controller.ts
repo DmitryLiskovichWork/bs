@@ -14,6 +14,8 @@ export abstract class BoardController {
   abstract Cell: React.FC<ICellProps>
   abstract autoFiller?: BoardAutoFiller;
 
+  abstract fireResult: (props: { isHit: boolean, isDestroyed: boolean, position: Position }) => void;
+  abstract move: () => void;
   abstract init: () => void;
 
   subs = new Subscriptions();
@@ -70,9 +72,9 @@ export abstract class BoardController {
   subscribe = (event: 'fire', callback: (position: Position) => void) => 
     this.subs.subscribe(event, callback)
 
-  emit = (event: 'fire', position: Position) => this.subs.emit(event, position)
+  emit = (event: 'fire', position: Position) => {
+    if(this.disabled) return;
 
-  fired: ({ isHit, isDestroyed, position }: { isHit: boolean, isDestroyed: boolean, position: Position }) => void = () => {};
-
-  move: () => void = () => {};
+    this.subs.emit(event, position)
+  }
 }

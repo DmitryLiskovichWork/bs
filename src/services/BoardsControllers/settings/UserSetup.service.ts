@@ -22,7 +22,6 @@ export class UserSetupService {
   }
 
   @action resetBoard = () => {
-    this.board.init()
     this.position = null
     this.boatSizesLeft = boatsConfig
   }
