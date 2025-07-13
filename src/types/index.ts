@@ -17,6 +17,7 @@ export enum BoatSizes {
 export type BoardConfig = {
   width: number;
   height: number;
+  botAnswerRate?: number;
 }
 
 export interface ICellProps {

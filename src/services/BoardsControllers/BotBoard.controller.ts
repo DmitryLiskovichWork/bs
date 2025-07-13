@@ -5,8 +5,6 @@ import { BoardConfig, Position } from "../../types";
 import { BotCell } from "../../components/units/BotCell";
 import { BoardAutoFiller } from "../BoardAutoFiller.service";
 
-const BOT_ANSWER_DELAY = 300;
-
 export class BotBoardController extends BoardController {
   title = 'Bot';
   Cell = BotCell;
@@ -37,11 +35,11 @@ export class BotBoardController extends BoardController {
 
     const nextPosition = this.bot.getNextPosition();
     
-    setTimeout(() => this.emit('fire', nextPosition), BOT_ANSWER_DELAY)
+    setTimeout(() => this.emit('fire', nextPosition), this.config.botAnswerRate ?? 0)
   }
 
   fireResult = ({ isHit, isDestroyed, position }: { isHit: boolean, isDestroyed: boolean, position: Position }) => {
-    if(isHit && !isDestroyed) {
+    if(isHit) {
       this.bot.updateHits(position);
     }
 

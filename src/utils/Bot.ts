@@ -1,6 +1,7 @@
 import { defaultDirections } from "../config/bot";
 import { Board, Position } from "../types";
 import { getRandomInt } from "./boardFilling";
+import { getAllUnselected } from "./getAllUnselected";
 import { getAroundPositions } from "./positions";
 import { inBoardScope } from "./validation";
 
@@ -21,11 +22,7 @@ export class Bot {
     this.nextPossiblePositions = [];
     
     // fill available positions to fire
-    for(let y = 0; y < this.board.length; y++) {
-      for(let x = 0; x < this.board[y].length; x++) {
-        this.availablePositions.push({ x, y });
-      }
-    }
+    this.availablePositions = getAllUnselected(this.board)
   }
 
   reset = () => {
@@ -53,7 +50,7 @@ export class Bot {
 
   // in case we destroyed the boat we are trying to avoid hitting near the boat
   destroyed = () => {
-    const positionsToAvoid = this.hitsSeries.flatMap(position => getAroundPositions(this.board, position));
+    const positionsToAvoid = this.hitsSeries.flatMap(position => getAroundPositions(this.board, position))
 
     this.availablePositions = this.availablePositions
       .filter(p => positionsToAvoid.every(position => position.x !== p.x || position.y !== p.y));
@@ -68,7 +65,9 @@ export class Bot {
     const predictedPosition = possiblePosition ? this.predictNextHit(possiblePosition) : null;
 
     if(this.availablePositions.length === 0) {
-      console.log(this.nextPossiblePositions, this.hitsSeries)
+      this.availablePositions = getAllUnselected(this.board)
+
+      console.warn('Cannot predict next positions, will use all available positions', this.availablePositions)
     }
 
     if(predictedPosition) {
@@ -98,7 +97,7 @@ export class Bot {
 
     // try to keep only predicted directions
     const directions = predictedDirections ? 
-      defaultDirections.filter(({ way }) => predictedDirections.includes(way)) :
+      defaultDirections.filter(({ dir }) => predictedDirections.includes(dir)) :
       defaultDirections;
 
     const possiblePositions = directions.map(({ x, y }) => ({

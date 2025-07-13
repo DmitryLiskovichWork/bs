@@ -8,6 +8,14 @@ import { UserSetup } from './components/units/UserSetup';
 import { UserBoardController } from './services/BoardsControllers/UserBoard.controller';
 
 function App() {
+  // just for analytics
+  if(gameEngine.status === 'done') {
+    // @ts-ignore
+    console.log(gameEngine.enemyBoard.bot?.iteration)
+    // @ts-ignore
+    console.log(gameEngine.enemyBoard.bot?.iteration)
+  }
+  
   return (
     <div className="app-container">
       <GameStatus />

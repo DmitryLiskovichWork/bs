@@ -25,7 +25,7 @@ export abstract class BoardController {
   @observable.ref board: Board = [];
   @observable.ref boats: Position[][] = [];
 
-  constructor(private config: BoardConfig) {
+  constructor(protected config: BoardConfig) {
     makeObservable(this)
 
     this.createBoard()

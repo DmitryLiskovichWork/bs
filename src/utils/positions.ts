@@ -17,7 +17,7 @@ export const getAroundPositions = (board: Board, position: Position): Position[]
 
   for(let i = -1; i <= 1; i++) {
     for(let j = -1; j <= 1; j++) {
-      const newPosition = { x: position.x + i, y: position.y + j };
+      const newPosition = { y: position.y + i, x: position.x + j };
 
       if(!inBoardScope(board, newPosition)) continue
       
