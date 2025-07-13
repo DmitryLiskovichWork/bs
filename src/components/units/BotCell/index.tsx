@@ -14,7 +14,7 @@ export const BotCell = observer(({ xPos, yPos, cell }: Props) => {
   const { gameController: { fire }, status} = gameEngine;
 
   const classes = [
-    ...(cell !== 1 && cell in CellStatus ? [CellStatus[cell as CellStatus]] : []),
+    ...((cell !== 1 || status === 'done') && cell in CellStatus ? [CellStatus[cell as CellStatus]] : []),
   ]
 
   const onClick = useCallback(() => {
