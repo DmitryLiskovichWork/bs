@@ -1,4 +1,4 @@
-import { computed } from "mobx";
+import { computed, makeObservable } from "mobx";
 import { config } from "../config";
 import { BoardController } from "./BoardsControllers/Board.controller";
 import { SinglePlayerService } from "./GameServices/SinglePlayer.service";
@@ -25,6 +25,8 @@ export class GameEngine {
     this.enemyBoard = new EnemyBoard(this.config)
     
     this.gameController = new GameController(this.userBoard, this.enemyBoard)
+
+    makeObservable(this)
   }
 
   @computed get boards() {

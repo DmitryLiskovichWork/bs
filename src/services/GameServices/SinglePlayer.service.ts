@@ -30,7 +30,7 @@ export class SinglePlayerService implements IGameController {
     this.activeBoard.move()
   }
 
-  @action restart = () => {
+  restart = () => {
     this.initBoards()
   }
 

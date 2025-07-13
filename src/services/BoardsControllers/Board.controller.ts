@@ -28,9 +28,9 @@ export abstract class BoardController {
   @observable.ref boats: Position[][] = [];
 
   constructor(protected config: BoardConfig) {
-    makeObservable(this)
-
     this.createBoard()
+
+    makeObservable(this)
   }
 
   @computed get winnerTitle() {

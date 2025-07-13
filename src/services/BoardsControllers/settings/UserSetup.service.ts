@@ -13,7 +13,7 @@ export class UserSetupService {
     makeObservable(this)
   }
 
-  private get availableSizes () {
+  @computed private get availableSizes () {
     return this.boatSizesLeft.filter(config => config.count > 0).map(config => config.size);
   }
 
