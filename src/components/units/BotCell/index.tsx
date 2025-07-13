@@ -11,7 +11,7 @@ type Props = {
 }
 
 export const BotCell = observer(({ xPos, yPos, cell }: Props) => {
-  const { userBoard: { fire }, status} = gameEngine;
+  const { gameController: { fire }, status} = gameEngine;
 
   const classes = [
     ...(cell !== 1 && cell in CellStatus ? [CellStatus[cell as CellStatus]] : []),
@@ -19,7 +19,7 @@ export const BotCell = observer(({ xPos, yPos, cell }: Props) => {
 
   const onClick = useCallback(() => {
     if((cell === 0 || cell === 1) && status === 'inprogress') {
-      fire(xPos, yPos);
+      fire({ x: xPos, y: yPos });
     }
   }, [cell, xPos, yPos, fire, status])
 

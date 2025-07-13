@@ -35,7 +35,7 @@ export abstract class BoardController {
   }
 
   @action init = () => {
-    this.status = 'setup';
+    // this.status = 'setup';
     this.boats = [];
 
     this.board = buildBoard(this.config.width, this.config.height);

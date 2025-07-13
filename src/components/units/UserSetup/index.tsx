@@ -1,8 +1,12 @@
 import { observer } from "mobx-react-lite"
-import { gameEngine } from "../../../services/GameEngine.store"
+import { UserBoardController } from "../../../services/UserBoard.controller"
 
-export const UserSetup = observer(() => {
-  const { userBoard: { setup: { boatSizesLeft }, status } } = gameEngine;
+type Props = {
+  board: UserBoardController
+}
+
+export const UserSetup = observer(({ board }: Props) => {
+  const { setup: { boatSizesLeft }, status } = board
   
   return status === 'setup' ? (
     <div>
@@ -18,8 +22,8 @@ export const UserSetup = observer(() => {
       <div>
         
       </div>
-      <button onClick={() => gameEngine.userBoard.autoFill()}>Auto Fill Your Board</button>
-      <button onClick={() => gameEngine.userBoard.setup.resetBoard()}>Reset Your Board</button>
+      <button onClick={() => board.autoFill()}>Auto Fill Your Board</button>
+      <button onClick={() => board.setup.resetBoard()}>Reset Your Board</button>
     </div>
   ) : null
 })

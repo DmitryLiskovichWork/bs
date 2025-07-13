@@ -1,8 +1,8 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { BoardController } from "./Board.controller";
-import { Position } from "../types";
+import { IGameController, Position } from "../types";
 
-export class SinglePlayerService {
+export class SinglePlayerService implements IGameController {
   @observable activeBoardId = 0
   boards: [BoardController, BoardController];
   
@@ -13,11 +13,17 @@ export class SinglePlayerService {
     // subscribe on all boards fire action
     boards.forEach(board => board.subscribe('fire', this.fire))
 
+    this.activeBoard.myTurn()
+
     makeObservable(this)
   }
 
   @computed get activeBoard() {
     return this.boards[this.activeBoardId];
+  }
+
+  @computed get oppositeBoard() {
+    return this.boards[this.nextBoardId];
   }
 
   get nextBoardId() {
@@ -29,6 +35,13 @@ export class SinglePlayerService {
   }
 
   @action nextBoard = () => {
+    if(this.boards.some(board => !board.hasBoats)) {
+      this.activeBoard.disabled = true;
+      this.oppositeBoard.disabled = true;
+
+      return
+    }
+
     this.activeBoard.disabled = true;
 
     this.activeBoardId = this.nextBoardId;
@@ -57,18 +70,13 @@ export class SinglePlayerService {
   }
 
   fire = (position: Position) => {
-    // getting enemy board to hit
-    const board = this.boards[this.nextBoardId];
-
-    console.log(this.nextBoardId, board)
-
-    const cell = board.board[position.y][position.x];
+    const cell = this.oppositeBoard.board[position.y][position.x];
     
     const isHit = cell === 1;
-    const isDestroyed = isHit ? this.hit(board, position) : false;
+    const isDestroyed = isHit ? this.hit(this.oppositeBoard, position) : false;
 
     if(!isHit) {
-      board.setPosition(position.x, position.y, -1);
+      this.oppositeBoard.setPosition(position.x, position.y, -1);
 
       this.nextBoard();
 

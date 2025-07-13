@@ -27,4 +27,6 @@ export interface ICellProps {
 
 export interface IGameController {
   activeBoard: BoardController;
+
+  fire: (position: Position) => void;
 }

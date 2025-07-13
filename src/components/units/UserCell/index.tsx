@@ -1,17 +1,18 @@
 import { observer } from "mobx-react-lite";
-import { gameEngine } from "../../../services/GameEngine.store";
 import { Cell } from "../../atoms/Cell";
 import { CellStatus } from "../../../config";
 import { useCallback } from "react";
+import { UserBoardController } from "../../../services/UserBoard.controller";
 
 type Props = {
   xPos: number;
   yPos: number;
   cell: number;
+  board: UserBoardController
 }
 
-export const UserCell = observer(({ xPos, yPos, cell }: Props) => {
-  const { userBoard: { setup: { changePosition, availablePaths, position}, status }, } = gameEngine;
+export const UserCell = observer(({ xPos, yPos, cell, board }: Props) => {
+  const { setup: { changePosition, availablePaths, position}, status } = board;
 
   const isActiveCell = position && position.x === xPos && position.y === yPos;
   const isAvailableCell = availablePaths?.some(path => path.some(p => p.x === xPos && p.y === yPos));
