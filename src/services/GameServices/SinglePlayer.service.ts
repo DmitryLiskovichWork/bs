@@ -23,7 +23,7 @@ export class SinglePlayerService implements IGameController {
     this.unsubscribes = this.boards.map(board => {
       board.init()
 
-      return board.subscribe('fire', this.fire)
+      return board.subscribe('fire', this.eventBasedFire)
     })
 
     this.activeBoardId = 0;
@@ -52,20 +52,8 @@ export class SinglePlayerService implements IGameController {
   }
 
   @action private nextBoard = () => {
-    if(this.boards.some(board => !board.hasBoats)) {
-      this.activeBoard.disabled = true;
-      this.opponentBoard.disabled = true;
-
-      return
-    }
-
     this.activeBoardId = this.nextBoardId;
-  
-    // disabled opponent board while active board is moving
-    this.activeBoard.disabled = false;
-    this.opponentBoard.disabled = true;
 
-    
     this.activeBoard.move();
   }
 
@@ -87,7 +75,7 @@ export class SinglePlayerService implements IGameController {
     return isDestroyed;
   }
 
-  fire = (position: Position) => {
+  private fire = (position: Position) => {
     // fire is only possible if both boards has boats
     if(!this.opponentBoard.hasBoats || !this.activeBoard.hasBoats) return
 
@@ -107,5 +95,11 @@ export class SinglePlayerService implements IGameController {
     this.activeBoard.fireResult({ isHit, isDestroyed, position });
 
     return { isHit, isDestroyed };
+  }
+
+  eventBasedFire = (position: Position, source: BoardController) => {
+    if(source === this.activeBoard) {
+      this.fire(position)
+    }
   }
 }

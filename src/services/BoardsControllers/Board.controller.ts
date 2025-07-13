@@ -14,6 +14,7 @@ export abstract class BoardController {
   abstract Cell: React.FC<ICellProps>
   abstract autoFiller?: BoardAutoFiller | null;
 
+  abstract fire: (position: Position) => void;
   abstract fireResult: (props: { isHit: boolean, isDestroyed: boolean, position: Position }) => void;
   // signal that the board can make next move
   // possible to use for triggering, if it's bot
@@ -21,7 +22,6 @@ export abstract class BoardController {
   abstract init: () => void;
 
   subs = new Subscriptions();
-  disabled = false;
 
   @observable status: 'setup' | 'initialized' = 'setup';
   @observable.ref board: Board = [];
@@ -77,12 +77,13 @@ export abstract class BoardController {
     return this.boats.find(boat => boat.some(position => position.x === x && position.y === y))
   }
 
-  subscribe = (event: 'fire', callback: (position: Position) => void) => 
-    this.subs.subscribe(event, callback)
+  subscribe = (event: 'fire', callback: (position: Position, source: BoardController) => void) => {
+    const listener = (position: Position) => callback(position, this)
 
-  emit = (event: 'fire', position: Position) => {
-    if(this.disabled) return;
+    return this.subs.subscribe(event, listener)
+  }
 
-    this.subs.emit(event, position)
+  emit = (event: 'fire', position: Position, source: BoardController) => {
+    this.subs.emit(event, position, source)
   }
 }

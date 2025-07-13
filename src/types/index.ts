@@ -31,8 +31,8 @@ export interface ICellProps {
 export interface IGameController {
   activeBoard: BoardController;
 
-  fire: (position: Position) => void;
   restart: () => void;
+  eventBasedFire: (position: Position, source: BoardController) => void;
 }
 
 export type Board = number[][];

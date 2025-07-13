@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import { ICellProps } from "../../../types";
 
 export const EnemyCell = observer(({ xPos, yPos, cell }: ICellProps) => {
-  const { gameController: { fire }, status} = gameEngine;
+  const { userBoard: { fire }, status} = gameEngine;
 
   const classes = [
     ...((cell !== 1 || status === 'finished') && cell in CellStatus ? [CellStatus[cell as CellStatus]] : []),

@@ -1,7 +1,7 @@
 import { makeObservable, runInAction } from "mobx";
 import { BoardController } from "./Board.controller";
 import { UserSetupService } from "./settings/UserSetup.service";
-import { BoardConfig } from "../../types";
+import { BoardConfig, Position } from "../../types";
 import { UserCell } from "../../components/units/UserCell";
 import { withUserBoard } from "../../hocs/withUserBoard";
 import { BoardAutoFiller } from "./BoardAutoFiller.service";
@@ -39,6 +39,10 @@ export class UserBoardController extends BoardController {
     this.setup.position = null;
 
     this.autoFiller.fill()
+  }
+
+  fire = (position: Position) => {
+    this.emit('fire', position, this)
   }
 
   fireResult = () => {}

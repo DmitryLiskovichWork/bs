@@ -23,7 +23,6 @@ export class BotBoardController extends BoardController {
   }
 
   init = () => {
-    this.disabled = false;
     this.resetBoats();
     this.createBoard();
     this.bot.reset()
@@ -32,11 +31,9 @@ export class BotBoardController extends BoardController {
   }
 
   fire = () => {
-    if(this.disabled) return;
-
     const nextPosition = this.bot.getNextPosition();
     
-    setTimeout(() => this.emit('fire', nextPosition), this.config.botAnswerRate ?? 0)
+    setTimeout(() => this.emit('fire', nextPosition, this), this.config.botAnswerRate ?? 0)
   }
 
   fireResult = ({ isHit, isDestroyed, position }: { isHit: boolean, isDestroyed: boolean, position: Position }) => {
