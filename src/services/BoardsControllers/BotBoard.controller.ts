@@ -17,7 +17,7 @@ export class BotBoardController extends BoardController {
 
     this.autoFiller = new BoardAutoFiller(this);
 
-    this.bot = new Bot(this.board);
+    this.bot = new Bot(this.board, config.botLevel ?? 'hard');
 
     makeObservable(this)
   }

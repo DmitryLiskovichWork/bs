@@ -4,6 +4,7 @@ export const config = {
   width: 10,
   height: 10,
   botAnswerRate: 10,
+  botLevel: 'hard' as const
 }
 
 export type BoatConfig = {

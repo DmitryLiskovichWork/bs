@@ -1,3 +1,4 @@
+import { BotLevel } from "../config/bot";
 import { BoardController } from "../services/BoardsControllers/Board.controller";
 
 export type Direction = 'up' | 'right' | 'down' | 'left';
@@ -18,6 +19,7 @@ export type BoardConfig = {
   width: number;
   height: number;
   botAnswerRate?: number;
+  botLevel?: BotLevel;
 }
 
 export interface ICellProps {

@@ -1,4 +1,4 @@
-import { defaultDirections } from "../config/bot";
+import { BotLevel, botLevels, defaultDirections } from "../config/bot";
 import { Board, Position } from "../types";
 import { getRandomInt } from "./boardFilling";
 import { getAllUnselected } from "./getAllUnselected";
@@ -13,7 +13,7 @@ export class Bot {
   // just analytics for how good bot is
   iteration = 0;
 
-  constructor(private board: Board) {
+  constructor(private board: Board, private level: BotLevel) {
     this.init()
   }
 
@@ -57,6 +57,8 @@ export class Bot {
 
         return [...acc, position]
       }, [] as Position[])
+      // game level based on how many mistakes bot can make
+      .filter(p => getRandomInt(0, botLevels[this.level].threshold) === 0)
 
     this.availablePositions = this.availablePositions
       .filter(p => positionsToAvoid.every(position => position.x !== p.x || position.y !== p.y));
