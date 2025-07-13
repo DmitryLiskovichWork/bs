@@ -86,6 +86,9 @@ export class SinglePlayerService implements IGameController {
   }
 
   fire = (position: Position) => {
+    // fire is only possible if both boards has boats
+    if(!this.oppositeBoard.hasBoats && this.activeBoard.hasBoats) return
+
     const cell = this.oppositeBoard.getPosition(position);
     
     const isHit = cell === 1;

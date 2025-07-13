@@ -50,7 +50,13 @@ export class Bot {
 
   // in case we destroyed the boat we are trying to avoid hitting near the boat
   destroyed = () => {
-    const positionsToAvoid = this.hitsSeries.flatMap(position => getAroundPositions(this.board, position))
+    const positionsToAvoid = this.hitsSeries
+      .flatMap(position => getAroundPositions(this.board, position))
+      .reduce((acc, position) => {
+        if(acc.some(p => p.x === position.x && p.y === position.y)) return acc;
+
+        return [...acc, position]
+      }, [] as Position[])
 
     this.availablePositions = this.availablePositions
       .filter(p => positionsToAvoid.every(position => position.x !== p.x || position.y !== p.y));
@@ -63,12 +69,6 @@ export class Bot {
   private decideNextPosition = () => {
     const possiblePosition = this.nextPossiblePositions?.find(position => this.predictNextHit(position));
     const predictedPosition = possiblePosition ? this.predictNextHit(possiblePosition) : null;
-
-    if(this.availablePositions.length === 0) {
-      this.availablePositions = getAllUnselected(this.board)
-
-      console.warn('Cannot predict next positions, will use all available positions', this.availablePositions)
-    }
 
     if(predictedPosition) {
       return predictedPosition;

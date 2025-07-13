@@ -3,6 +3,7 @@ import { config } from "../config";
 import { BoardController } from "./BoardsControllers/Board.controller";
 import { SinglePlayerService } from "./GameServices/SinglePlayer.service";
 import { BotBoardController } from "./BoardsControllers/BotBoard.controller";
+import { UserBoardController } from "./BoardsControllers/UserBoard.controller";
 import { BoardConfig, IGameController } from "../types";
 
 type GameSettings = {
