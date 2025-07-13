@@ -1,7 +1,7 @@
 import { action, computed, makeObservable, observable } from "mobx";
-import { BoardController } from "./Board.controller";
-import { IGameController, Position } from "../types";
-import { getRandomInt } from "../utils/boardFilling";
+import { BoardController } from "../BoardsControllers/Board.controller";
+import { IGameController, Position } from "../../types";
+import { getRandomInt } from "../../utils/boardFilling";
 
 export class SinglePlayerService implements IGameController {
   @observable activeBoardId = getRandomInt(0, 1)

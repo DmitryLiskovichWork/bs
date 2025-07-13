@@ -4,7 +4,7 @@ import { BoatSizes } from "../types";
 import { getRandomInt } from "../utils/boardFilling";
 
 import { getAvailablePositionsWithDirections } from "../utils/boardFilling";
-import { BoardController } from "./Board.controller";
+import { BoardController } from "./BoardsControllers/Board.controller";
 
 export class BoardAutoFiller {
   constructor(private board: BoardController) {

@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { Cell } from "../../atoms/Cell";
 import { CellStatus } from "../../../config";
 import { useCallback } from "react";
-import { UserBoardController } from "../../../services/UserBoard.controller";
+import { UserBoardController } from "../../../services/BoardsControllers/UserBoard.controller";
 
 type Props = {
   xPos: number;

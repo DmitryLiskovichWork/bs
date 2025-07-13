@@ -1,4 +1,4 @@
-import { BoardController } from "../services/Board.controller";
+import { BoardController } from "../services/BoardsControllers/Board.controller";
 
 export type Direction = 'up' | 'right' | 'down' | 'left';
 

@@ -1,4 +1,4 @@
-import { UserBoardController } from "../services/UserBoard.controller";
+import { UserBoardController } from "../services/BoardsControllers/UserBoard.controller";
 import { ICellProps } from "../types";
 
 export const withUserBoard = (

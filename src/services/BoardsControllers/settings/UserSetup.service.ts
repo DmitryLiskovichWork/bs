@@ -1,9 +1,9 @@
 import { action, computed, makeObservable, observable } from "mobx";
-import { Direction, Position } from "../types";
-import { BoatConfig, boatsConfig } from "../config";
-import { findLongestPath } from "../utils/directions";
-import { isFieldAvailable } from "../utils/validation";
-import { UserBoardController } from "./UserBoard.controller";
+import { Direction, Position } from "../../../types";
+import { BoatConfig, boatsConfig } from "../../../config";
+import { findLongestPath } from "../../../utils/directions";
+import { isFieldAvailable } from "../../../utils/validation";
+import { UserBoardController } from "../UserBoard.controller";
 
 export class UserSetupService {
   @observable.ref position: Position | null = null;

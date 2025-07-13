@@ -5,7 +5,7 @@ import { gameEngine } from './services/GameEngine.store';
 import { GameBoard } from './components/units/GameBoard';
 import { GameStatus } from './components/units/GameStatus';
 import { UserSetup } from './components/units/UserSetup';
-import { UserBoardController } from './services/UserBoard.controller';
+import { UserBoardController } from './services/BoardsControllers/UserBoard.controller';
 
 function App() {
   return (

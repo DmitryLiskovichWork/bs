@@ -1,9 +1,9 @@
 import { makeObservable } from "mobx";
 import { BoardController } from "./Board.controller";
-import { Bot } from "../utils/Bot";
-import { BoardConfig, Position } from "../types";
-import { BotCell } from "../components/units/BotCell";
-import { BoardAutoFiller } from "./BoardAutoFiller.service";
+import { Bot } from "../../utils/Bot";
+import { BoardConfig, Position } from "../../types";
+import { BotCell } from "../../components/units/BotCell";
+import { BoardAutoFiller } from "../BoardAutoFiller.service";
 
 const BOT_ANSWER_DELAY = 400;
 
