@@ -2,12 +2,12 @@ import { makeObservable } from "mobx";
 import { BoardController } from "./Board.controller";
 import { Bot } from "../../utils/classes/Bot";
 import { BoardConfig, Position } from "../../types";
-import { BotCell } from "../../components/units/BotCell";
+import { EnemyCell } from "../../components/units/EnemyCell";
 import { BoardAutoFiller } from "../BoardAutoFiller.service";
 
 export class BotBoardController extends BoardController {
   title = 'Bot';
-  Cell = BotCell;
+  Cell = EnemyCell;
   autoFiller: BoardAutoFiller;
 
   bot: Bot;

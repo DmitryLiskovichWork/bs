@@ -5,7 +5,7 @@ import { CellStatus } from "../../../config";
 import { useCallback } from "react";
 import { ICellProps } from "../../../types";
 
-export const BotCell = observer(({ xPos, yPos, cell }: ICellProps) => {
+export const EnemyCell = observer(({ xPos, yPos, cell }: ICellProps) => {
   const { gameController: { fire }, status} = gameEngine;
 
   const classes = [
