@@ -1,7 +1,7 @@
 import { makeObservable, runInAction } from "mobx";
-import { GameConfig, Position } from "types";
+import { GameConfig, ICellProps, Position } from "types";
 import { UserCell } from "@components/units/UserCell";
-import { withUserBoard } from "@utils/hocs/withUserBoard";
+import { withBoardController } from "@utils/hocs/withBoardController";
 import { UserSetupService } from "./settings/UserSetup.service";
 import { BoardController } from "./Board.controller";
 import { BoardAutoFiller } from "./BoardAutoFiller.service";
@@ -9,7 +9,7 @@ import { BoardAutoFiller } from "./BoardAutoFiller.service";
 export class UserBoardController extends BoardController {
   setup: UserSetupService;
   title = 'User';
-  Cell = withUserBoard(UserCell, this);
+  Cell = withBoardController(UserCell, this) as React.FC<ICellProps>;
   autoFiller: BoardAutoFiller;
 
   constructor(config: GameConfig) {

@@ -8,8 +8,10 @@ import { gameEngine } from "@services/GameEngine.store"
 
 export const BattleSea = observer(() => {
   const boards = gameEngine.boards.map((board, index) => {
+    const activeBoardIcon = gameEngine.gameController.activeBoard === board ? '🥊' : '🎯';
+
     const title = gameEngine.status === 'finished' && board.hasBoats ? 
-      `${board.title} is winner 🏆` : `${board.title} Battle Board 🥊`;
+      `${board.title} is winner 🏆` : `${board.title} Battle Board ${activeBoardIcon}`;
 
     return (
       <React.Fragment key={`${board.title}_${index}`}>

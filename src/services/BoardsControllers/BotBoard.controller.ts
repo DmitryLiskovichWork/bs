@@ -1,13 +1,16 @@
 import { makeObservable } from "mobx";
 import { BoardController } from "./Board.controller";
 import { Bot } from "@utils/classes/Bot";
-import { GameConfig, Position } from "types";
+import { GameConfig, ICellProps, Position } from "types";
 import { EnemyCell } from "@components/units/EnemyCell";
+import { withBoardController } from "@utils/hocs/withBoardController";
 import { BoardAutoFiller } from "./BoardAutoFiller.service";
 
 export class BotBoardController extends BoardController {
+  private activeProcess: ReturnType<typeof setTimeout> | null = null;
+
   title = 'Bot';
-  Cell = EnemyCell;
+  Cell = withBoardController(EnemyCell, this) as React.FC<ICellProps>;
   autoFiller: BoardAutoFiller;
 
   bot: Bot;
@@ -30,10 +33,16 @@ export class BotBoardController extends BoardController {
     this.fill();
   }
 
+  stop = () => {
+    if(this.activeProcess) clearTimeout(this.activeProcess);
+  }
+
   fire = () => {
     const nextPosition = this.bot.getNextPosition();
+
+    if(this.activeProcess) this.stop();
     
-    setTimeout(() => this.emit('fire', nextPosition, this), this.config.botAnswerRate ?? 0)
+    this.activeProcess = setTimeout(() => this.emit('fire', nextPosition, this), this.config.botAnswerRate ?? 0)
   }
 
   fireResult = ({ isHit, isDestroyed, position }: { isHit: boolean, isDestroyed: boolean, position: Position }) => {

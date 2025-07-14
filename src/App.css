@@ -2,6 +2,7 @@
 @import './components/units/UserSetup/styles.css';
 @import './components/atoms/Cell/styles.css';
 @import './components/molecules/Grid/styles.css';
+@import './components/units/GameBoard/styles.css';
 
 .app-container {
   padding: 40px;

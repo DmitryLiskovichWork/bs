@@ -9,7 +9,7 @@ type Props = {
 
 export const GameBoard = ({ title, board, Cell }: Props) => (
   <div className='game-board'>
-    <h2>{title}</h2>
+    <h2 className="game-board-title">{title}</h2>
     <Grid data={board}>
       {(x, y, cell) => <Cell xPos={x} yPos={y} cell={cell} />}
     </Grid>

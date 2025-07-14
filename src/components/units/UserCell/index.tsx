@@ -4,6 +4,7 @@ import { CellStatus } from "@config/index";
 import { useCallback } from "react";
 import { UserBoardController } from "@services/BoardsControllers/UserBoard.controller";
 import { ICellProps } from "types";
+import { gameEngine } from "@services/GameEngine.store";
 
 type Props = ICellProps & {
   board: UserBoardController
@@ -11,6 +12,7 @@ type Props = ICellProps & {
 
 export const UserCell = observer(({ xPos, yPos, cell, board }: Props) => {
   const { setup: { changePosition, availablePaths, position}, status } = board;
+  const { gameController: { activeBoard } } = gameEngine;
 
   const isActiveCell = position && position.x === xPos && position.y === yPos;
   const isAvailableCell = availablePaths?.some(path => path.some(p => p.x === xPos && p.y === yPos));
@@ -18,14 +20,20 @@ export const UserCell = observer(({ xPos, yPos, cell, board }: Props) => {
   const classes = [
     ...(isActiveCell ? ['active'] : []),
     ...(isAvailableCell ? ['available'] : []),
+    ...(cell === 1 && gameEngine.status !== 'inprogress' ? ['ship'] : []),
     ...(cell in CellStatus ? [CellStatus[cell as CellStatus]] : []),
   ]
 
   const onClick = useCallback(() => {
     if(status === 'setup') {
       changePosition(xPos, yPos);
+    } 
+
+    // cannot fire on your own board
+    if(activeBoard !== board && status === 'initialized') {
+      activeBoard.fire({ x: xPos, y: yPos });
     }
-  }, [status, changePosition, xPos, yPos])
+  }, [status, changePosition, xPos, yPos, activeBoard, board])
 
   return  (
     <Cell className={classes.join(' ')} onClick={onClick}/>

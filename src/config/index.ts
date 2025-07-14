@@ -3,7 +3,7 @@ import { BoatSizes, Direction, Position } from "types"
 export const config = {
   width: 10,
   height: 10,
-  botAnswerRate: 300,
+  botAnswerRate: 400,
   botLevel: 'hard' as const
 }
 
@@ -27,7 +27,6 @@ export const directions: Record<Direction, Position[]> = {
 }
 
 export enum CellStatus {
-  ship = 1,
   hit = 2,
   shipHit = 3,
   miss = -1,
