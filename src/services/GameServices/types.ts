@@ -5,5 +5,6 @@ export interface IGameController {
   activeBoard: BoardController;
 
   restart: () => void;
+  start: () => void;
   eventBasedFire: (position: Position, source: BoardController) => void;
 }

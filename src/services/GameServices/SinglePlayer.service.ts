@@ -11,29 +11,30 @@ export class SinglePlayerService implements IGameController {
   // support only 2 boards
   constructor(...boards: BoardController[]) {
     this.boards = [boards[0], boards[1]];
-
-    this.initBoards()
+    
+    this.initBoardsData()
 
     makeObservable(this)
   }
 
+  private initBoardsData = () => {
+    this.boards.forEach(board => board.init())
+  }
+
   // subscribe on all boards fire action
-  @action private initBoards = () => {
+  @action start = () => {
     this.unsubscribes.forEach(unsubscribe => unsubscribe())
-
-    this.unsubscribes = this.boards.map(board => {
-      board.init()
-
-      return board.subscribe('fire', this.eventBasedFire)
-    })
 
     this.activeBoardId = 0;
 
-    this.activeBoard.move()
+    this.unsubscribes = this.boards.map(board => {
+      return board.subscribe('fire', this.eventBasedFire)
+    })
   }
 
   restart = () => {
-    this.initBoards()
+    this.initBoardsData()
+    this.start()
   }
 
   @computed get activeBoard() {

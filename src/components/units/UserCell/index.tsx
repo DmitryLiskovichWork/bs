@@ -17,10 +17,12 @@ export const UserCell = observer(({ xPos, yPos, cell, board }: Props) => {
   const isActiveCell = position && position.x === xPos && position.y === yPos;
   const isAvailableCell = availablePaths?.some(path => path.some(p => p.x === xPos && p.y === yPos));
 
+  const isVisibleShips = cell === 1 && (board.status === 'setup' || gameEngine.status === 'finished');
+
   const classes = [
     ...(isActiveCell ? ['active'] : []),
     ...(isAvailableCell ? ['available'] : []),
-    ...(cell === 1 && gameEngine.status !== 'inprogress' ? ['ship'] : []),
+    ...(isVisibleShips ? ['ship'] : []),
     ...(cell in CellStatus ? [CellStatus[cell as CellStatus]] : []),
   ]
 

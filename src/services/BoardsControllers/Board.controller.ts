@@ -77,7 +77,7 @@ export abstract class BoardController {
     return this.boats.find(boat => boat.some(position => position.x === x && position.y === y))
   }
 
-  subscribe = (event: 'fire', callback: (position: Position, source: BoardController) => void) => {
+  subscribe(event: 'fire', callback: (position: Position, source: BoardController) => void) {
     const listener = (position: Position) => callback(position, this)
 
     return this.subs.subscribe(event, listener)

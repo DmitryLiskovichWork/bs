@@ -59,5 +59,13 @@ export class BotBoardController extends BoardController {
     }
   }
 
+  override subscribe = (event: 'fire', callback: (position: Position, source: BoardController) => void) => {
+    const unsubscribe = super.subscribe(event, callback);
+
+    this.fire();
+
+    return unsubscribe;
+  }
+
   move = this.fire
 }

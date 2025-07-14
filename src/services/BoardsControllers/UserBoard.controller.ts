@@ -30,13 +30,14 @@ export class UserBoardController extends BoardController {
 
   override changeStatus = (status: 'setup' | 'initialized') => {
     runInAction(() => {
-      this.setup.position = null;
+      this.setup.resetBoard();
+
       this.status = status;
     })
   }
 
   override fill = () => {
-    this.setup.position = null;
+    this.setup.resetBoard();
 
     this.autoFiller.fill()
   }

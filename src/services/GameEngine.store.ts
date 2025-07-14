@@ -1,11 +1,11 @@
-import { computed, makeObservable } from "mobx";
+import { computed, makeObservable, when } from "mobx";
 import { config } from "@config/index";
 import { GameConfig } from "types";
 import { BoardController } from "./BoardsControllers/Board.controller";
 import { SinglePlayerService } from "./GameServices/SinglePlayer.service";
 import { BotBoardController } from "./BoardsControllers/BotBoard.controller";
-import { UserBoardController } from "./BoardsControllers/UserBoard.controller";
 import { IGameController } from "./GameServices/types";
+import { UserBoardController } from "./BoardsControllers/UserBoard.controller";
 
 type GameSettings = {
   GameController: new (...boards: BoardController[]) => IGameController
@@ -28,23 +28,20 @@ export class GameEngine {
     this.gameController = new GameController(this.userBoard, this.enemyBoard)
 
     makeObservable(this)
+
+    when(() => this.status === 'inprogress', () => {
+      this.gameController.start()
+    })
   }
 
-  @computed get boards() {
-    return [
-      this.userBoard,
-      ...(this.status !== 'setup' ? [this.enemyBoard] : []),
-    ]
+  get boards() {
+    return [this.userBoard, this.enemyBoard]
   }
 
   @computed get status() {
-    const userStatus = this.userBoard.status;
+    if(this.userBoard.status === 'setup' || this.enemyBoard.status === 'setup') return 'setup';
 
-    if(userStatus === 'setup') return 'setup';
-
-    const status = [this.enemyBoard.hasBoats, this.userBoard.hasBoats].includes(false) ? 'finished' : 'inprogress';
-
-    return status;
+    return this.userBoard.hasBoats && this.enemyBoard.hasBoats ? 'inprogress' : 'finished';
   }
 }
 

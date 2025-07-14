@@ -1,4 +1,4 @@
-import { action, makeObservable } from "mobx";
+import { makeObservable } from "mobx";
 import { boatsConfig } from "@config/index";
 import { BoatSizes } from "types";
 import { getRandomInt } from "@utils/boardFilling";
@@ -20,13 +20,13 @@ export class BoardAutoFiller {
     return this.board.addBoat(randomPosition.position.x, randomPosition.position.y, size, randomDirection)
   }
 
-  @action fill = () => {
+  fill = () => {
     boatsConfig.forEach(({ size, count }) => {
       for(let i = 0; i < count; i++) {
         this.randomizeBoatPlacement(size);
       }
     });
 
-    this.board.status = 'initialized';
+    this.board.changeStatus('initialized');
   }
 }
