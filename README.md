@@ -14,33 +14,65 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### `Details`
 
-### `npm run build`
+## 📦 Architecture Overview
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This project emphasizes clean separation of concerns and flexibility.  
+The core logic is handled by services, and the main entry point is: GameEngine.store.ts
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🧩 Component Structure (Atomic Design)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Following Atomic Design principles:
 
-### `npm run eject`
+- **Atoms** – smallest independent UI elements (`Cell`, `Button`, `Link`).
+- **Molecules** – group atoms into larger pieces (e.g., `BoardGrid`); contain no business logic.
+- **Units** – reusable components that *can* include business logic.
+- **Modules** – represent larger parts of the app (e.g., different routes or full screens).
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 🎮 Game Logic
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The `GameEngine` accepts:
+- `Boards` – describes the battlefield behavior.
+- `GameController` – defines how moves are performed.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Thanks to this separation, replacing a board or controller implementation leads to different game modes without changing core logic.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Currently supported:
+- Two board controller types (Bot and User)
 
-## Learn More
+## 🧠 Controllers
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Bot** – automatically picks targets using internal logic.
+- **User** – selects targets via mouse clicks on the opponent’s board.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+You can set up **Bot vs Bot** mode to watch automatic gameplay.
+
+## 🔁 Game Flow: `SinglePlayerService`
+
+The `SinglePlayerService` coordinates game turns.
+
+### How it works:
+1. Each board knows whether it's its turn to move.
+2. The board emits a `fire` event:
+   - **Bot**: triggers fire automatically with a delay.
+   - **User**: triggers fire by clicking an enemy cell.
+3. `SinglePlayerService` validates the move source and determines the next player.
+
+## 🚢 Ship Placement
+
+Boards support:
+- **Autofill** – automatic random ship placement.
+- **Manual mode** – the user places ships manually.
+
+While placing ships, valid positions are highlighted for easy visualization.
+
+## ✅ Features
+
+- Service-based architecture with fully pluggable logic
+- Supports custom game modes (e.g., Bot vs Bot)
+- Clean, extensible codebase
+- Simple UI focused on logic over styling
+- Easy to scale into multiplayer or more complex modes
+

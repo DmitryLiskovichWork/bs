@@ -48,15 +48,15 @@ export class GameEngine {
   }
 }
 
-export const gameEngine = new GameEngine(config, {
-  GameController: SinglePlayerService,
-  EnemyBoard: BotBoardController,
-  UserBoard: UserBoardController,
-});
-
-// Use this to watch how bots fight each other 💀
 // export const gameEngine = new GameEngine(config, {
 //   GameController: SinglePlayerService,
 //   EnemyBoard: BotBoardController,
-//   UserBoard: BotBoardController,
+//   UserBoard: UserBoardController,
 // });
+
+// Use this to watch how bots fight each other 💀
+export const gameEngine = new GameEngine(config, {
+  GameController: SinglePlayerService,
+  EnemyBoard: BotBoardController,
+  UserBoard: BotBoardController,
+});
