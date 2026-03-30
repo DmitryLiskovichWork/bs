@@ -2,7 +2,7 @@ import { computed, makeObservable, when } from "mobx";
 import { config } from "@config/index";
 import { GameConfig } from "types";
 import { BoardController } from "./BoardsControllers/Board.controller";
-import { SinglePlayerService } from "./GameServices/SinglePlayer.service";
+import { SingleScreenService } from "./GameServices/SingleScreen.service";
 import { BotBoardController } from "./BoardsControllers/BotBoard.controller";
 import { IGameController } from "./GameServices/types";
 import { UserBoardController } from "./BoardsControllers/UserBoard.controller";
@@ -46,21 +46,21 @@ export class GameEngine {
 }
 
 export const gameEngine = new GameEngine(config, {
-  GameController: SinglePlayerService,
+  GameController: SingleScreenService,
   EnemyBoard: BotBoardController,
   UserBoard: UserBoardController,
 });
 
 // Use this to watch how bots fight each other 💀
 // export const gameEngine = new GameEngine(config, {
-//   GameController: SinglePlayerService,
+//   GameController: SingleScreenService,
 //   EnemyBoard: BotBoardController,
 //   UserBoard: BotBoardController,
 // });
 
 // Or like user vs user 🤝
 // export const gameEngine = new GameEngine(config, {
-//   GameController: SinglePlayerService,
+//   GameController: SingleScreenService,
 //   EnemyBoard: UserBoardController,
 //   UserBoard: UserBoardController,
 // });

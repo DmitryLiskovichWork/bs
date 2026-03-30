@@ -3,7 +3,7 @@ import { BoardController } from "@services/BoardsControllers/Board.controller";
 import { Position } from "types";
 import { IGameController } from "./types";
 
-export class SinglePlayerService implements IGameController {
+export class SingleScreenService implements IGameController {
   @observable activeBoardId = 0
   unsubscribes: (() => void)[] = []
   boards: [BoardController, BoardController];
